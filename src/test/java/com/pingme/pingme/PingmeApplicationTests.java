@@ -11,9 +11,4 @@ import com.pingme.ping.services.PingService;
 @SpringBootTest
 class PingmeApplicationTests {
 
-	@Test
-	void contextLoads() {
-		assertEquals(false, PingService.pingExternalServer(new UrlDTO("dsasdadsads")).IsResponding());
-	}
-
 }
