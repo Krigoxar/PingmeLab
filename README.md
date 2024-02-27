@@ -1,4 +1,4 @@
-# JavaSpringBSUIRlabs
+# Pingme
 
 ## Описание
 
