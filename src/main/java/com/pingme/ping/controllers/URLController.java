@@ -46,17 +46,17 @@ public class URLController {
 	@DeleteMapping("/Pings/{id}")
 	public HttpStatus deleteObservedURL(@PathVariable Long id) {
 		if(pingService.deleteObservedURL(id)) {
-			return HttpStatus.ACCEPTED;
+			return HttpStatus.NO_CONTENT;
 		}
-		return HttpStatus.NO_CONTENT;
+		return HttpStatus.NOT_FOUND;
 	}
 
 	@PutMapping("Pings/{id}")
 	public ResponseEntity<ObservedURL> putMethodName(@PathVariable Long id, @RequestBody ObservedURL entity) {
 		var res = pingService.updateObservedURL(entity, id);
 		if(res == null) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
-		return new ResponseEntity<>(res, HttpStatus.OK);
+		return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
 	}
 }

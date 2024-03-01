@@ -41,7 +41,7 @@ public class StatsController {
         List<ObservedURL> observedURLs = observedURLService.getObservableURLbyURL(url);
     
         if (observedURLs.isEmpty()) {
-          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     
         var observedUrl = observedURLs.get(0);

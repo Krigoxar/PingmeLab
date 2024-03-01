@@ -53,7 +53,7 @@ public class ObservationsController {
     public ResponseEntity<Observation> updateObservation(@PathVariable Long id, @RequestBody Observation entity) {
 		var res = observationService.updateObservation(entity, id);
 		if(res == null) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(res, HttpStatus.OK);
     }
@@ -63,6 +63,6 @@ public class ObservationsController {
 		if(observationService.deleteObservation(id)) {
 			return HttpStatus.NO_CONTENT;
 		}
-		return HttpStatus.ACCEPTED;
+		return HttpStatus.NOT_FOUND;
     }
 }
