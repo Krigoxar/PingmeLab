@@ -20,7 +20,7 @@ public class URLController {
 		this.pingService = pingService;
 	}
 
-	@GetMapping("/Pings")
+	@GetMapping("/pings")
 	public ResponseEntity<List<ObservedURL>> getAllTutorials(@RequestParam(required = false) String url) {
 		List<ObservedURL> observedURLs;
 	
@@ -38,12 +38,12 @@ public class URLController {
 		return new ResponseEntity<>(observedURLs, HttpStatus.OK);
   	}
 	
-	@PostMapping("/Pings")
+	@PostMapping("/pings")
 	public ObservedURL createNewObservableURL(@RequestBody(required = true) NewURL urlDto) {
 		return pingService.addObservedURL(urlDto);
 	}
 
-	@DeleteMapping("/Pings/{id}")
+	@DeleteMapping("/pings/{id}")
 	public HttpStatus deleteObservedURL(@PathVariable Long id) {
 		if(pingService.deleteObservedURL(id)) {
 			return HttpStatus.NO_CONTENT;
@@ -51,7 +51,7 @@ public class URLController {
 		return HttpStatus.NOT_FOUND;
 	}
 
-	@PutMapping("Pings/{id}")
+	@PutMapping("pings/{id}")
 	public ResponseEntity<ObservedURL> putMethodName(@PathVariable Long id, @RequestBody ObservedURL entity) {
 		var res = pingService.updateObservedURL(entity, id);
 		if(res == null) {

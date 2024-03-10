@@ -1,6 +1,9 @@
 package com.pingme.ping.daos.model;
 
-import java.util.Date;
+import java.util.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -8,8 +11,16 @@ import jakarta.persistence.*;
 public class ObservedURL {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "generator")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "observedurls_generator")
   private long id;
+
+  @OneToMany(mappedBy = "observedurl")
+  @JsonIgnore
+  private Set<Observation> observations;
+
+  @OneToMany(mappedBy = "url")
+  @JsonIgnore
+  private Set<UrlAndBag> bags;
 
   @Column(name = "url")
   private String url;

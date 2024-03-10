@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.pingme.ping.daos.BagOfURLSRepo;
 import com.pingme.ping.daos.ObservedURLRepo;
+import com.pingme.ping.daos.UrlAndBagRepo;
 import com.pingme.ping.daos.model.*;
 import com.pingme.ping.dtos.NewURL;
 
@@ -14,11 +16,26 @@ import java.util.Date;
 public class ObservedService {
 
     private ObservedURLRepo observedURLRepo;
+    private BagOfURLSRepo bagOfURLSRepo;
+    private UrlAndBagRepo urlAndBagRepo;
 
-    public ObservedService(ObservedURLRepo observedURLRepo) {
+    public ObservedService(ObservedURLRepo observedURLRepo, BagOfURLSRepo bagOfURLSRepo, UrlAndBagRepo urlAndBagRepo) {
         this.observedURLRepo = observedURLRepo;
+        this.bagOfURLSRepo = bagOfURLSRepo;
+        this.urlAndBagRepo = urlAndBagRepo;
     }
     
+    public boolean putInBag(String urlStr, String bagName) {
+        var bag = bagOfURLSRepo.findByName(bagName);
+        var url = observedURLRepo.findByUrl(urlStr);
+        if(bag.isEmpty() || url.isEmpty()) {
+            return false;
+        }
+        var urlAndBag = new UrlAndBag(url.get(0), bag.get(0));
+        urlAndBagRepo.save(urlAndBag);
+        return true;
+    }
+
     public List<ObservedURL> getAllObservableURLs() {
         return observedURLRepo.findAll();
     }

@@ -9,18 +9,18 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "comments")
+@Table(name = "observations")
 public class Observation {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_generator")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "observation_generator")
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "ObservedURLs_id", nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
   @JsonIgnore
-  private ObservedURL observedURL;
+  private ObservedURL observedurl;
 
   @Column(name = "observationDate")
   private Date observationDate;
@@ -33,11 +33,11 @@ public class Observation {
   }
 
   public ObservedURL getobservedURL() {
-    return observedURL;
+    return observedurl;
   }
 
   public void setObservedURL(ObservedURL observedURL) {
-    this.observedURL = observedURL;
+    this.observedurl = observedURL;
   }
 
   public Date getObsertvationDate() {
@@ -58,6 +58,6 @@ public class Observation {
 
   @Override
   public String toString() {
-      return "Observation [id=" + id + ", observationDate=" + observationDate + ", observedURL=" + observedURL + ", isResponding=" + isResponding +"]";
+    return "Observation [id=" + id + ", observationDate=" + observationDate + ", isResponding=" + isResponding + "]";
   }
 }

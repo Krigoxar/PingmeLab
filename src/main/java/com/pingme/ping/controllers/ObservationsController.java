@@ -7,6 +7,7 @@ import org.springframework.http.*;
 
 import com.pingme.ping.daos.model.Observation;
 import com.pingme.ping.daos.model.ObservedURL;
+import com.pingme.ping.dtos.NewURL;
 import com.pingme.ping.services.ObservationService;
 import com.pingme.ping.services.ObservedService;
 
@@ -23,7 +24,7 @@ public class ObservationsController {
         this.observedURLService = observedURLService;
     }
 
-    @GetMapping("/Observation")
+    @GetMapping("/observation")
     public ResponseEntity<List<Observation>> getAllObservations(@RequestParam(required = false) String url) {
 
         if(url == null)
@@ -44,12 +45,12 @@ public class ObservationsController {
         return new ResponseEntity<>(observations, HttpStatus.OK);
     }
 
-    @PostMapping("/Observation")
-    public ResponseEntity<Observation> createObservation(@RequestBody Observation entity) {
-        return new ResponseEntity<>(observationService.addObservation(entity), HttpStatus.OK);
+    @PostMapping("/observation")
+    public ResponseEntity<Observation> createObservation(@RequestBody NewURL url) {
+        return new ResponseEntity<>(observationService.addObservation(url), HttpStatus.OK);
     }
 
-    @PutMapping("/Observation/{id}")
+    @PutMapping("/observation/{id}")
     public ResponseEntity<Observation> updateObservation(@PathVariable Long id, @RequestBody Observation entity) {
 		var res = observationService.updateObservation(entity, id);
 		if(res == null) {
@@ -58,7 +59,7 @@ public class ObservationsController {
 		return new ResponseEntity<>(res, HttpStatus.OK);
     }
     
-    @DeleteMapping("/Observation/{id}")
+    @DeleteMapping("/observation/{id}")
     public HttpStatus deleteObservation(@PathVariable Long id) {
 		if(observationService.deleteObservation(id)) {
 			return HttpStatus.NO_CONTENT;

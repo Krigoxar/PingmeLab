@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.pingme.ping.daos.model.*;
 
 @Repository
-public interface ObservationRepo extends JpaRepository<Observation, Long> {
-  List<Observation> findByObservedurl(ObservedURL observedURL);
+public interface BagOfURLSRepo extends JpaRepository<BagOfURLS, Long> {
+    List<BagOfURLS> findByName(String name);
 }

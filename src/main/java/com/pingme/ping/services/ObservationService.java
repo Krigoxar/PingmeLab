@@ -8,33 +8,17 @@ import org.springframework.stereotype.Service;
 
 import com.pingme.ping.daos.*;
 import com.pingme.ping.daos.model.*;
+import com.pingme.ping.dtos.NewURL;
 
 @Service
 public class ObservationService {
 
     private ObservationRepo observationRepo;
+    private ObservedURLRepo observedURLRepo;
 
-    public void checkConnections(List<ObservedURL> ursl){
-        for (ObservedURL observedURL : ursl) {
-            boolean isResponding = false;
-            try
-            {
-                isResponding = InetAddress.getByName(observedURL.getURL()).isReachable(1000);
-            }
-            catch(Exception e)
-            {
-                isResponding = false;
-            }
-            var res = new Observation();
-            res.setIsResponding(isResponding);
-            res.setObservationDate(new Date());
-            res.setObservedURL(observedURL);
-            observationRepo.save(res);
-        }
-    }
-
-    public ObservationService(ObservationRepo observationRepo) {
+    public ObservationService(ObservationRepo observationRepo, ObservedURLRepo observedURLRepo) {
         this.observationRepo = observationRepo;
+        this.observedURLRepo = observedURLRepo;
     }
 
     public List<Observation> getAllObservations() {
@@ -42,11 +26,27 @@ public class ObservationService {
     }
 
     public List<Observation> getObservationsByURL(ObservedURL url) {
-        return observationRepo.findByObservedURL(url);
+        return observationRepo.findByObservedurl(url);
     }
 
-    public Observation addObservation(Observation obs) {
-        return observationRepo.save(obs);
+    public Observation addObservation(NewURL url) {boolean isResponding = false;
+        try
+        {
+            isResponding = InetAddress.getByName(url.url()).isReachable(1000);
+        }
+        catch(Exception e)
+        {
+            isResponding = false;
+        }
+        var res = new Observation();
+        res.setIsResponding(isResponding);
+        res.setObservationDate(new Date());
+        var obsurl = observedURLRepo.findByUrl(url.url());
+        if(obsurl.isEmpty()) {
+            return null;
+        }
+        res.setObservedURL(obsurl.get(0));
+        return observationRepo.save(res);
     }
 
     public boolean deleteObservation(Long id) {

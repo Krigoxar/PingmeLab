@@ -1,8 +1,6 @@
 package com.pingme.ping.controllers;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
@@ -23,20 +21,10 @@ public class StatsController {
     public StatsController(ObservationService observationService, ObservedService observedURLService) {
         this.observationService = observationService;
         this.observedURLService = observedURLService;
-
-        Timer timer = new Timer ();
-        TimerTask hourlyTask = new TimerTask () {
-            @Override
-            public void run () {
-                var uRLs = observedURLService.getAllObservableURLs();
-                observationService.checkConnections(uRLs);
-            }
-        };
-        timer.schedule (hourlyTask, 10l, 1000*60*5L);
     }
 
-    @GetMapping("/Stats")
-	public ResponseEntity<URLStats> getAllTutorials(@RequestParam(required = true) String url) {
+    @GetMapping("/stats")
+	public ResponseEntity<URLStats> getAllStats(@RequestParam(required = true) String url) {
 
         List<ObservedURL> observedURLs = observedURLService.getObservableURLbyURL(url);
     
