@@ -7,21 +7,21 @@ import org.springframework.http.*;
 
 import com.pingme.ping.daos.model.ObservedURL;
 import com.pingme.ping.dtos.NewURL;
-import com.pingme.ping.services.ObservedService;
+import com.pingme.ping.services.ObservedURLService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/api")
 public class URLController {
  
-	private ObservedService pingService;
+	private ObservedURLService pingService;
 
-	public URLController(ObservedService pingService) {
+	public URLController(ObservedURLService pingService) {
 		this.pingService = pingService;
 	}
 
 	@GetMapping("/pings")
-	public ResponseEntity<List<ObservedURL>> getAllTutorials(@RequestParam(required = false) String url) {
+	public ResponseEntity<List<ObservedURL>> getAllUrls(@RequestParam(required = false) String url) {
 		List<ObservedURL> observedURLs;
 	
 		if (url == null){
@@ -52,11 +52,11 @@ public class URLController {
 	}
 
 	@PutMapping("pings/{id}")
-	public ResponseEntity<ObservedURL> putMethodName(@PathVariable Long id, @RequestBody ObservedURL entity) {
+	public ResponseEntity<ObservedURL> updateUrl(@PathVariable Long id, @RequestBody ObservedURL entity) {
 		var res = pingService.updateObservedURL(entity, id);
 		if(res == null) {
-			return new ResponseEntity<>(HttpStatus.OK);
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 }

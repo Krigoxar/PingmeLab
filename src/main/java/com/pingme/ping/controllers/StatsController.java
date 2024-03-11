@@ -8,7 +8,7 @@ import org.springframework.http.*;
 import com.pingme.ping.daos.model.ObservedURL;
 import com.pingme.ping.dtos.URLStats;
 import com.pingme.ping.services.ObservationService;
-import com.pingme.ping.services.ObservedService;
+import com.pingme.ping.services.ObservedURLService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -16,9 +16,9 @@ import com.pingme.ping.services.ObservedService;
 public class StatsController {
     
     private ObservationService observationService;
-    private ObservedService observedURLService;
+    private ObservedURLService observedURLService;
     
-    public StatsController(ObservationService observationService, ObservedService observedURLService) {
+    public StatsController(ObservationService observationService, ObservedURLService observedURLService) {
         this.observationService = observationService;
         this.observedURLService = observedURLService;
     }

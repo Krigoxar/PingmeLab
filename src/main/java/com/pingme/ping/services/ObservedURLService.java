@@ -4,36 +4,52 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.pingme.ping.daos.BagOfURLSRepo;
+import com.pingme.ping.daos.CategoryRepo;
 import com.pingme.ping.daos.ObservedURLRepo;
-import com.pingme.ping.daos.UrlAndBagRepo;
 import com.pingme.ping.daos.model.*;
 import com.pingme.ping.dtos.NewURL;
 
 import java.util.Date;
 
 @Service
-public class ObservedService {
+public class ObservedURLService {
 
     private ObservedURLRepo observedURLRepo;
-    private BagOfURLSRepo bagOfURLSRepo;
-    private UrlAndBagRepo urlAndBagRepo;
+    private CategoryRepo categoryRepo;
 
-    public ObservedService(ObservedURLRepo observedURLRepo, BagOfURLSRepo bagOfURLSRepo, UrlAndBagRepo urlAndBagRepo) {
+    public ObservedURLService(ObservedURLRepo observedURLRepo, CategoryRepo categoryRepo) {
         this.observedURLRepo = observedURLRepo;
-        this.bagOfURLSRepo = bagOfURLSRepo;
-        this.urlAndBagRepo = urlAndBagRepo;
+        this.categoryRepo = categoryRepo;
     }
     
-    public boolean putInBag(String urlStr, String bagName) {
-        var bag = bagOfURLSRepo.findByName(bagName);
-        var url = observedURLRepo.findByUrl(urlStr);
+    public Category putToCategory(Long uRLId, Long categoryId) {
+        var bag = categoryRepo.findById(categoryId);
+        var url = observedURLRepo.findById(uRLId);
         if(bag.isEmpty() || url.isEmpty()) {
-            return false;
+            return null;
         }
-        var urlAndBag = new UrlAndBag(url.get(0), bag.get(0));
-        urlAndBagRepo.save(urlAndBag);
-        return true;
+
+        var category = bag.get();
+        category.getUrls().add(url.get());
+        
+        return categoryRepo.save(category);
+    }
+
+    public Category removeFromCategory(Long uRLId, Long categoryId) {
+        var bag = categoryRepo.findById(categoryId);
+        var url = observedURLRepo.findById(uRLId);
+        if(bag.isEmpty() || url.isEmpty()) {
+            return null;
+        }
+
+        var category = bag.get();
+        if(!category.getUrls().contains(url.get())) {
+            return null;
+        }
+
+        category.getUrls().remove(url.get());
+        
+        return categoryRepo.save(category);
     }
 
     public List<ObservedURL> getAllObservableURLs() {

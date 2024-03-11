@@ -41,9 +41,9 @@ public class StatsService {
                         isResponding = false;
                     }
                     var res = new Observation();
-                    res.setIsResponding(isResponding);
+                    res.setResponding(isResponding);
                     res.setObservationDate(new Date());
-                    res.setObservedURL(observedURL);
+                    res.setObservedurl(observedURL);
                     observationRepo.save(res);
                 }
             }

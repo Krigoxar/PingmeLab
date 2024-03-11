@@ -28,36 +28,43 @@ public class Observation {
   @Column(name = "IsResponding")
   private boolean isResponding;
 
+  
+  @Override
+  public String toString() {
+    return "Observation [id=" + id + ", observationDate=" + observationDate + ", isResponding=" + isResponding + "]";
+  }
+
+
   public Long getId() {
     return id;
   }
 
-  public ObservedURL getobservedURL() {
+  public ObservedURL getObservedurl() {
     return observedurl;
   }
 
-  public void setObservedURL(ObservedURL observedURL) {
-    this.observedurl = observedURL;
+
+  public void setObservedurl(ObservedURL observedurl) {
+    this.observedurl = observedurl;
   }
 
-  public Date getObsertvationDate() {
+
+  public Date getObservationDate() {
     return observationDate;
   }
+
 
   public void setObservationDate(Date observationDate) {
     this.observationDate = observationDate;
   }
 
-  public boolean getIsResponding() {
+
+  public boolean isResponding() {
     return isResponding;
   }
 
-  public void setIsResponding(boolean isResponding) {
-    this.isResponding = isResponding;
-  }
 
-  @Override
-  public String toString() {
-    return "Observation [id=" + id + ", observationDate=" + observationDate + ", isResponding=" + isResponding + "]";
+  public void setResponding(boolean isResponding) {
+    this.isResponding = isResponding;
   }
 }

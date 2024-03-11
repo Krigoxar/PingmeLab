@@ -39,13 +39,13 @@ public class ObservationService {
             isResponding = false;
         }
         var res = new Observation();
-        res.setIsResponding(isResponding);
+        res.setResponding(isResponding);
         res.setObservationDate(new Date());
         var obsurl = observedURLRepo.findByUrl(url.url());
         if(obsurl.isEmpty()) {
             return null;
         }
-        res.setObservedURL(obsurl.get(0));
+        res.setObservedurl(obsurl.get(0));
         return observationRepo.save(res);
     }
 
@@ -66,9 +66,9 @@ public class ObservationService {
         }
 
         var temp = obs.get();
-        temp.setIsResponding(entity.getIsResponding());
-        temp.setObservationDate(entity.getObsertvationDate());
-        temp.setObservedURL(entity.getobservedURL());
+        temp.setResponding(entity.isResponding());
+        temp.setObservationDate(entity.getObservationDate());
+        temp.setObservedurl(entity.getObservedurl());
         return observationRepo.save(entity);
     }
 }

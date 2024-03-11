@@ -9,7 +9,7 @@ import com.pingme.ping.daos.model.Observation;
 import com.pingme.ping.daos.model.ObservedURL;
 import com.pingme.ping.dtos.NewURL;
 import com.pingme.ping.services.ObservationService;
-import com.pingme.ping.services.ObservedService;
+import com.pingme.ping.services.ObservedURLService;
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -17,9 +17,9 @@ import com.pingme.ping.services.ObservedService;
 public class ObservationsController {
 
     private ObservationService observationService;
-    private ObservedService observedURLService;
+    private ObservedURLService observedURLService;
     
-    public ObservationsController(ObservationService observationService, ObservedService observedURLService) {
+    public ObservationsController(ObservationService observationService, ObservedURLService observedURLService) {
         this.observationService = observationService;
         this.observedURLService = observedURLService;
     }
@@ -29,7 +29,8 @@ public class ObservationsController {
 
         if(url == null)
         {
-            return new ResponseEntity<>(observationService.getAllObservations(), HttpStatus.OK);
+            var obs = observationService.getAllObservations();
+            return new ResponseEntity<>(obs, HttpStatus.OK);
         }
 
         ObservedURL uRLObj = observedURLService.getObservableURLbyURL(url).get(0);

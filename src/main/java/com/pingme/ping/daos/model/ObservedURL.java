@@ -18,9 +18,9 @@ public class ObservedURL {
   @JsonIgnore
   private Set<Observation> observations;
 
-  @OneToMany(mappedBy = "url")
+  @OneToMany(mappedBy = "urls")
   @JsonIgnore
-  private Set<UrlAndBag> bags;
+  private Set<Category> bags;
 
   @Column(name = "url")
   private String url;
