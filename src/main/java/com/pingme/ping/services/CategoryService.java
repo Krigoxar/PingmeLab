@@ -1,7 +1,7 @@
 package com.pingme.ping.services;
 
 import org.springframework.stereotype.Service;
-import java.util.List;
+import java.util.*;
 
 import com.pingme.ping.daos.*;
 import com.pingme.ping.daos.model.*;
@@ -20,8 +20,16 @@ public class CategoryService {
         return categoryRepo.findAll();
     }
 
-    public List<Category> getCategoryByName(String name) {
-        return categoryRepo.findByName(name);
+    Map<String, Category> cash = new HashMap<>();
+
+    public Category getCategoryByName(String name) {
+        if(cash.containsKey(name))
+        {
+            return cash.get(name);
+        }
+        var obj = categoryRepo.findByName(name).get(0);
+        cash.put(name, obj);
+        return obj;
     }
 
     public Category addCategory(CategoryName categoryName) {
@@ -34,6 +42,9 @@ public class CategoryService {
         {
             return false;
         }
+
+        cash.clear();
+
         categoryRepo.delete(res.get());
         return true;
     }
@@ -43,6 +54,9 @@ public class CategoryService {
         if (res.isEmpty()) {
             return null;
         }
+
+        cash.clear();
+
         var obj = res.get();
         obj.setName(category.getName());
         return categoryRepo.save(obj);

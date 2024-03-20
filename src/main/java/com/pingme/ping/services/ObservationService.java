@@ -14,9 +14,9 @@ import com.pingme.ping.dtos.NewURL;
 public class ObservationService {
 
     private ObservationRepo observationRepo;
-    private ObservedURLRepo observedURLRepo;
+    private URLRepo observedURLRepo;
 
-    public ObservationService(ObservationRepo observationRepo, ObservedURLRepo observedURLRepo) {
+    public ObservationService(ObservationRepo observationRepo, URLRepo observedURLRepo) {
         this.observationRepo = observationRepo;
         this.observedURLRepo = observedURLRepo;
     }

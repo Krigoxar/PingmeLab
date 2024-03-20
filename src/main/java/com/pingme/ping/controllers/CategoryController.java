@@ -1,5 +1,6 @@
 package com.pingme.ping.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +26,13 @@ public class CategoryController {
 
     @GetMapping("/categorys")
 	public ResponseEntity<List<Category>> getAllTutorials(@RequestParam(required = false) String url) {
-		List<Category> categorys;
+		List<Category> categorys = new ArrayList<>();
 	
 		if (url == null){
 			categorys = categoryService.getAllCategorys();
 		}
 		else{
-			categorys = categoryService.getCategoryByName(url);
+			categorys.add(categoryService.getCategoryByName(url));
 		}
 	
 		if (categorys.isEmpty()) {

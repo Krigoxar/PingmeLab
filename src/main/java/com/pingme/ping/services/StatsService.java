@@ -6,7 +6,7 @@ import java.util.TimerTask;
 import org.springframework.stereotype.Service;
 
 import com.pingme.ping.daos.ObservationRepo;
-import com.pingme.ping.daos.ObservedURLRepo;
+import com.pingme.ping.daos.URLRepo;
 import com.pingme.ping.daos.model.*;
 
 import java.net.InetAddress;
@@ -16,9 +16,9 @@ import java.util.Date;
 public class StatsService {
 
     private ObservationRepo observationRepo;
-    private ObservedURLRepo observedURLRepo;
+    private URLRepo observedURLRepo;
     
-    public StatsService(ObservedURLRepo observedURLRepo, ObservationRepo observationRepo) {
+    public StatsService(URLRepo observedURLRepo, ObservationRepo observationRepo) {
         this.observedURLRepo = observedURLRepo;
         this.observationRepo = observationRepo;
         startCorutine();

@@ -7,7 +7,9 @@ import org.springframework.http.*;
 
 import com.pingme.ping.daos.model.ObservedURL;
 import com.pingme.ping.dtos.NewURL;
+import com.pingme.ping.dtos.ObservationsCount;
 import com.pingme.ping.services.ObservedURLService;
+
 
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -19,6 +21,17 @@ public class URLController {
 	public URLController(ObservedURLService pingService) {
 		this.pingService = pingService;
 	}
+
+	@GetMapping("/pings/observationscount")
+	public ResponseEntity<ObservationsCount> getObservationsCount(@RequestParam(required = true) String url) {
+		ObservationsCount observationsCount = pingService.getObservatioinsCount(url);
+
+		if (observationsCount == null) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(observationsCount, HttpStatus.OK);
+	}
+	
 
 	@GetMapping("/pings")
 	public ResponseEntity<List<ObservedURL>> getAllUrls(@RequestParam(required = false) String url) {

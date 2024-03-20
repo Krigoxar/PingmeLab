@@ -5,19 +5,20 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.pingme.ping.daos.CategoryRepo;
-import com.pingme.ping.daos.ObservedURLRepo;
+import com.pingme.ping.daos.URLRepo;
 import com.pingme.ping.daos.model.*;
 import com.pingme.ping.dtos.NewURL;
+import com.pingme.ping.dtos.ObservationsCount;
 
 import java.util.Date;
 
 @Service
 public class ObservedURLService {
 
-    private ObservedURLRepo observedURLRepo;
+    private URLRepo observedURLRepo;
     private CategoryRepo categoryRepo;
 
-    public ObservedURLService(ObservedURLRepo observedURLRepo, CategoryRepo categoryRepo) {
+    public ObservedURLService(URLRepo observedURLRepo, CategoryRepo categoryRepo) {
         this.observedURLRepo = observedURLRepo;
         this.categoryRepo = categoryRepo;
     }
@@ -87,5 +88,15 @@ public class ObservedURLService {
         observedURL.setDate(entity.getDate());
         observedURL.setURL(entity.getURL());
         return observedURL;
+    }
+
+    public ObservationsCount getObservatioinsCount(String url) {
+        var target = observedURLRepo.findByUrl(url);
+        if(target.isEmpty())
+        {
+            return null;
+        }
+        Long count = observedURLRepo.countObservations(target.get(0));
+        return new ObservationsCount(count, url);
     }
 }
