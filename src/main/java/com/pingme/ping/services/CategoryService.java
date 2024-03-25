@@ -6,6 +6,7 @@ import java.util.*;
 import com.pingme.ping.daos.*;
 import com.pingme.ping.daos.model.*;
 import com.pingme.ping.dtos.CategoryName;
+import com.pingme.ping.components.*;
 
 @Service
 public class CategoryService {
@@ -20,7 +21,7 @@ public class CategoryService {
         return categoryRepo.findAll();
     }
 
-    Map<String, Category> cash = new HashMap<>();
+    Cache<String, Category> cash = new Cache<>();
 
     public Category getCategoryByName(String name) {
         if(cash.containsKey(name))
