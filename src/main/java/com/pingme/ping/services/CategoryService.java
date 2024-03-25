@@ -34,7 +34,9 @@ public class CategoryService {
     }
 
     public Category addCategory(CategoryName categoryName) {
-        return categoryRepo.save(new Category(categoryName.name()));
+        var cat = new Category(categoryName.name());
+        cash.put(categoryName.name(), cat);
+        return categoryRepo.save(cat);
     }
 
     public boolean deleteCategory(Long id) {
@@ -44,7 +46,7 @@ public class CategoryService {
             return false;
         }
 
-        cash.clear();
+        cash.remove(res.get().getName());
 
         categoryRepo.delete(res.get());
         return true;
