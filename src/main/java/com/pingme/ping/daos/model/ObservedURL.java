@@ -67,4 +67,38 @@ public class ObservedURL {
   public String toString() {
     return "ObservedURL [id =" + id +", url=" + url + ", date=" + observationStartDate + "]";
   }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + (int) (id ^ (id >>> 32));
+    result = prime * result + ((url == null) ? 0 : url.hashCode());
+    result = prime * result + ((observationStartDate == null) ? 0 : observationStartDate.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    ObservedURL other = (ObservedURL) obj;
+    if (id != other.id)
+      return false;
+    if (url == null) {
+      if (other.url != null)
+        return false;
+    } else if (!url.equals(other.url))
+      return false;
+    if (observationStartDate == null) {
+      if (other.observationStartDate != null)
+        return false;
+    } else if (!observationStartDate.equals(other.observationStartDate))
+      return false;
+    return true;
+  }
 }
