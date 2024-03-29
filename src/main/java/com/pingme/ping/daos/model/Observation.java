@@ -99,7 +99,7 @@ public class Observation {
         return false;
     } else if (!observationDate.equals(other.observationDate))
       return false;
-    if (isResponding != other.isResponding)
+    else if (isResponding != other.isResponding)
       return false;
     return true;
   }
