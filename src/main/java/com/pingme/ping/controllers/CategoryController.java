@@ -25,14 +25,19 @@ public class CategoryController {
     }
 
     @GetMapping("/categorys")
-	public ResponseEntity<List<Category>> getAllTutorials(@RequestParam(required = false) String url) {
+	public ResponseEntity<List<Category>> getAllCategorys(@RequestParam(required = false) String url) {
 		List<Category> categorys = new ArrayList<>();
 	
 		if (url == null){
 			categorys = categoryService.getAllCategorys();
 		}
 		else{
-			categorys.add(categoryService.getCategoryByName(url));
+
+			var obj = categoryService.getCategoryByName(url);
+
+			if(obj != null){
+				categorys.add(obj);
+			}
 		}
 	
 		if (categorys.isEmpty()) {
@@ -55,7 +60,7 @@ public class CategoryController {
 		return HttpStatus.NOT_FOUND;
 	}
     
-    @PutMapping("categorys/{id}")
+    @PutMapping("/categorys/{id}")
 	public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category entity) {
 		var res = categoryService.updateCategory(entity, id);
 		if(res == null) {
@@ -64,7 +69,7 @@ public class CategoryController {
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 
-	@PostMapping("categorys/{id}/url")
+	@PostMapping("/categorys/{id}/url")
 	public ResponseEntity<Category> addURLCategory(@PathVariable Long id, @RequestParam Long uRLid) {
 
 		var res = observedService.putToCategory(uRLid, id);
@@ -74,7 +79,7 @@ public class CategoryController {
 		return new ResponseEntity<>(res, HttpStatus.OK);
 	}
 
-    @DeleteMapping("categorys/{id}/url")
+    @DeleteMapping("/categorys/{id}/url")
 	public ResponseEntity<Category> removeURLCategory(@PathVariable Long id, @RequestParam Long uRLid) {
 
 		var res = observedService.removeFromCategory(uRLid, id);

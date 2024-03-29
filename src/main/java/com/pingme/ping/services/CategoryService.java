@@ -28,9 +28,14 @@ public class CategoryService {
         {
             return cash.get(name);
         }
-        var obj = categoryRepo.findByName(name).get(0);
-        cash.put(name, obj);
-        return obj;
+        var obj = categoryRepo.findByName(name);
+
+        if (obj.isEmpty()) {
+            return null;
+        }
+
+        cash.put(name, obj.get(0));
+        return obj.get(0);
     }
 
     public Category addCategory(CategoryName categoryName) {

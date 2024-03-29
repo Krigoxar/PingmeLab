@@ -11,6 +11,7 @@ import com.pingme.ping.dtos.NewURL;
 import com.pingme.ping.dtos.ObservationsCount;
 
 import java.util.Date;
+import java.util.LinkedList;
 
 @Service
 public class ObservedURLService {
@@ -71,6 +72,15 @@ public class ObservedURLService {
         if(forDelete.isEmpty()) 
         {
             return false;
+        }
+        
+        List<Category> categories = new LinkedList<Category>();
+
+        forDelete.get().getBags().forEach(cat -> categories.add(cat));
+
+        for(Category category : categories)
+        {
+            category.getUrls().remove(forDelete.get());
         }
 
         observedURLRepo.delete(forDelete.get());
