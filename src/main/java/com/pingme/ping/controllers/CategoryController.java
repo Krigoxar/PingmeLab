@@ -25,15 +25,15 @@ public class CategoryController {
     }
 
     @GetMapping("/categorys")
-	public ResponseEntity<List<Category>> getAllCategorys(@RequestParam(required = false) String url) {
+	public ResponseEntity<List<Category>> getAllCategorys(@RequestParam(required = false) String name) {
 		List<Category> categorys = new ArrayList<>();
 	
-		if (url == null){
+		if (name == null){
 			categorys = categoryService.getAllCategorys();
 		}
 		else{
 
-			var obj = categoryService.getCategoryByName(url);
+			var obj = categoryService.getCategoryByName(name);
 
 			if(obj != null){
 				categorys.add(obj);

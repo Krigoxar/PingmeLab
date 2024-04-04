@@ -14,10 +14,7 @@ public class Category {
     private Long id;
 
     @ManyToMany
-    @JoinTable(
-        name = "category_url", 
-        joinColumns = @JoinColumn(name = "categorys_id"), 
-        inverseJoinColumns = @JoinColumn(name = "ObservedURLs_id"))
+    @JoinTable(name = "category_url", joinColumns = @JoinColumn(name = "categorys_id"), inverseJoinColumns = @JoinColumn(name = "ObservedURLs_id"))
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Set<ObservedURL> urls;
 
@@ -82,6 +79,5 @@ public class Category {
             return false;
         return true;
     }
-
 
 }

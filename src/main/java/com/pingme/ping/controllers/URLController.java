@@ -10,12 +10,11 @@ import com.pingme.ping.dtos.NewURL;
 import com.pingme.ping.dtos.ObservationsCount;
 import com.pingme.ping.services.ObservedURLService;
 
-
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/api")
 public class URLController {
- 
+
 	private ObservedURLService pingService;
 
 	public URLController(ObservedURLService pingService) {
@@ -31,26 +30,24 @@ public class URLController {
 		}
 		return new ResponseEntity<>(observationsCount, HttpStatus.OK);
 	}
-	
 
 	@GetMapping("/pings")
 	public ResponseEntity<List<ObservedURL>> getAllUrls(@RequestParam(required = false) String url) {
 		List<ObservedURL> observedURLs;
-	
-		if (url == null){
+
+		if (url == null) {
 			observedURLs = pingService.getAllObservableURLs();
-		}
-		else{
+		} else {
 			observedURLs = pingService.getObservableURLbyURL(url);
 		}
-	
+
 		if (observedURLs.isEmpty()) {
-		  return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-	
+
 		return new ResponseEntity<>(observedURLs, HttpStatus.OK);
-  	}
-	
+	}
+
 	@PostMapping("/pings")
 	public ObservedURL createNewObservableURL(@RequestBody(required = true) NewURL urlDto) {
 		return pingService.addObservedURL(urlDto);
@@ -58,7 +55,7 @@ public class URLController {
 
 	@DeleteMapping("/pings/{id}")
 	public HttpStatus deleteObservedURL(@PathVariable Long id) {
-		if(pingService.deleteObservedURL(id)) {
+		if (pingService.deleteObservedURL(id)) {
 			return HttpStatus.NO_CONTENT;
 		}
 		return HttpStatus.NOT_FOUND;
@@ -67,7 +64,7 @@ public class URLController {
 	@PutMapping("pings/{id}")
 	public ResponseEntity<ObservedURL> updateUrl(@PathVariable Long id, @RequestBody ObservedURL entity) {
 		var res = pingService.updateObservedURL(entity, id);
-		if(res == null) {
+		if (res == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(res, HttpStatus.OK);

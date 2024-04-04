@@ -11,62 +11,60 @@ import com.pingme.ping.components.*;
 @Service
 public class CategoryService {
 
-    private CategoryRepo categoryRepo;
-    
-    public CategoryService(CategoryRepo categoryRepo) {
-        this.categoryRepo = categoryRepo;
+    private CategoryRepository categoryRepository;
+    private Cache<String, Category> cache;
+
+    public CategoryService(CategoryRepository categoryRepository, Cache<String, Category> cash) {
+        this.categoryRepository = categoryRepository;
+        this.cache = cash;
     }
 
     public List<Category> getAllCategorys() {
-        return categoryRepo.findAll();
+        return categoryRepository.findAll();
     }
 
-    Cache<String, Category> cash = new Cache<>();
-
     public Category getCategoryByName(String name) {
-        if(cash.containsKey(name))
-        {
-            return cash.get(name);
+        if (cache.containsKey(name)) {
+            return cache.get(name);
         }
-        var obj = categoryRepo.findByName(name);
+        var obj = categoryRepository.findByName(name);
 
         if (obj.isEmpty()) {
             return null;
         }
 
-        cash.put(name, obj.get(0));
+        cache.put(name, obj.get(0));
         return obj.get(0);
     }
 
     public Category addCategory(CategoryName categoryName) {
         var cat = new Category(categoryName.name());
-        cash.put(categoryName.name(), cat);
-        return categoryRepo.save(cat);
+        cache.put(categoryName.name(), cat);
+        return categoryRepository.save(cat);
     }
 
     public boolean deleteCategory(Long id) {
-        var res = categoryRepo.findById(id);
-        if(res.isEmpty())
-        {
+        var res = categoryRepository.findById(id);
+        if (res.isEmpty()) {
             return false;
         }
 
-        cash.remove(res.get().getName());
+        cache.remove(res.get().getName());
 
-        categoryRepo.delete(res.get());
+        categoryRepository.delete(res.get());
         return true;
     }
 
     public Category updateCategory(Category category, Long id) {
-        var res = categoryRepo.findById(id);
+        var res = categoryRepository.findById(id);
         if (res.isEmpty()) {
             return null;
         }
 
-        cash.clear();
+        cache.remove(category.getName());
 
         var obj = res.get();
         obj.setName(category.getName());
-        return categoryRepo.save(obj);
+        return categoryRepository.save(obj);
     }
 }

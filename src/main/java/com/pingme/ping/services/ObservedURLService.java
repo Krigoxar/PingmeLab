@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.pingme.ping.daos.CategoryRepo;
-import com.pingme.ping.daos.URLRepo;
+import com.pingme.ping.daos.CategoryRepository;
+import com.pingme.ping.daos.URLRepository;
 import com.pingme.ping.daos.model.*;
 import com.pingme.ping.dtos.NewURL;
 import com.pingme.ping.dtos.ObservationsCount;
@@ -16,10 +16,10 @@ import java.util.LinkedList;
 @Service
 public class ObservedURLService {
 
-    private URLRepo observedURLRepo;
-    private CategoryRepo categoryRepo;
+    private URLRepository observedURLRepo;
+    private CategoryRepository categoryRepo;
 
-    public ObservedURLService(URLRepo observedURLRepo, CategoryRepo categoryRepo) {
+    public ObservedURLService(URLRepository observedURLRepo, CategoryRepository categoryRepo) {
         this.observedURLRepo = observedURLRepo;
         this.categoryRepo = categoryRepo;
     }

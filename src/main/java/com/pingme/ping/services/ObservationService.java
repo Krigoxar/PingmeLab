@@ -13,20 +13,20 @@ import com.pingme.ping.dtos.NewURL;
 @Service
 public class ObservationService {
 
-    private ObservationRepo observationRepo;
-    private URLRepo observedURLRepo;
+    private ObservationRepository observationRepository;
+    private URLRepository observedURLRepository;
 
-    public ObservationService(ObservationRepo observationRepo, URLRepo observedURLRepo) {
-        this.observationRepo = observationRepo;
-        this.observedURLRepo = observedURLRepo;
+    public ObservationService(ObservationRepository observationRepository, URLRepository observedURLRepository) {
+        this.observationRepository = observationRepository;
+        this.observedURLRepository = observedURLRepository;
     }
 
     public List<Observation> getAllObservations() {
-        return observationRepo.findAll();
+        return observationRepository.findAll();
     }
 
     public List<Observation> getObservationsByURL(ObservedURL url) {
-        return observationRepo.findByObservedurl(url);
+        return observationRepository.findByObservedurl(url);
     }
 
     public Observation addObservation(NewURL url) {boolean isResponding = false;
@@ -41,26 +41,26 @@ public class ObservationService {
         var res = new Observation();
         res.setResponding(isResponding);
         res.setObservationDate(new Date());
-        var obsurl = observedURLRepo.findByUrl(url.url());
+        var obsurl = observedURLRepository.findByUrl(url.url());
         if(obsurl.isEmpty()) {
             return null;
         }
         res.setObservedurl(obsurl.get(0));
-        return observationRepo.save(res);
+        return observationRepository.save(res);
     }
 
     public boolean deleteObservation(Long id) {
-        var obs = observationRepo.findById(id);
+        var obs = observationRepository.findById(id);
         if(obs.isEmpty()) {
             return false;
         }
 
-        observationRepo.delete(obs.get());
+        observationRepository.delete(obs.get());
         return true;
     }
 
     public Observation updateObservation(Observation entity, Long id) {
-        var obs = observationRepo.findById(id);
+        var obs = observationRepository.findById(id);
         if(obs.isEmpty()){
             return null;
         }
@@ -69,6 +69,6 @@ public class ObservationService {
         temp.setResponding(entity.isResponding());
         temp.setObservationDate(entity.getObservationDate());
         temp.setObservedurl(entity.getObservedurl());
-        return observationRepo.save(entity);
+        return observationRepository.save(entity);
     }
 }
