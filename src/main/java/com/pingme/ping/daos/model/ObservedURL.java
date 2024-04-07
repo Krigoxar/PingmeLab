@@ -1,14 +1,20 @@
 package com.pingme.ping.daos.model;
 
-import java.util.*;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
-@Table(name = "ObservedURLs")
-public class ObservedURL {
+@Table(name = "ObservedUrls")
+public class ObservedUrl {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "observedurls_generator")
@@ -36,9 +42,9 @@ public class ObservedURL {
   @Column(name = "observationStartDate")
   private Date observationStartDate;
 
-  public ObservedURL() { }
+  public ObservedUrl() {}
 
-  public ObservedURL(String url, Date observationStartDate) {
+  public ObservedUrl(String url, Date observationStartDate) {
     this.url = url;
     this.observationStartDate = observationStartDate;
   }
@@ -47,11 +53,11 @@ public class ObservedURL {
     return id;
   }
 
-  public String getURL() {
+  public String getUrl() {
     return url;
   }
 
-  public void setURL(String url) {
+  public void setUrl(String url) {
     this.url = url;
   }
 
@@ -65,7 +71,7 @@ public class ObservedURL {
 
   @Override
   public String toString() {
-    return "ObservedURL [id =" + id +", url=" + url + ", date=" + observationStartDate + "]";
+    return "ObservedUrl [id =" + id + ", url=" + url + ", date=" + observationStartDate + "]";
   }
 
   @Override
@@ -74,31 +80,40 @@ public class ObservedURL {
     int result = 1;
     result = prime * result + (int) (id ^ (id >>> 32));
     result = prime * result + ((url == null) ? 0 : url.hashCode());
-    result = prime * result + ((observationStartDate == null) ? 0 : observationStartDate.hashCode());
+    result =
+        prime * result + ((observationStartDate == null) ? 0 : observationStartDate.hashCode());
     return result;
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
-    ObservedURL other = (ObservedURL) obj;
-    if (id != other.id)
+    }
+    ObservedUrl other = (ObservedUrl) obj;
+    if (id != other.id) {
       return false;
+    }
     if (url == null) {
-      if (other.url != null)
+      if (other.url != null) {
         return false;
-    } else if (!url.equals(other.url))
+      }
+    } else if (!url.equals(other.url)) {
       return false;
+    }
     if (observationStartDate == null) {
-      if (other.observationStartDate != null)
+      if (other.observationStartDate != null) {
         return false;
-    } else if (!observationStartDate.equals(other.observationStartDate))
+      }
+    } else if (!observationStartDate.equals(other.observationStartDate)) {
       return false;
+    }
     return true;
   }
 }

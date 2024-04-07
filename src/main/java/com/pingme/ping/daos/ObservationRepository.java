@@ -1,13 +1,12 @@
 package com.pingme.ping.daos;
 
+import com.pingme.ping.daos.model.Observation;
+import com.pingme.ping.daos.model.ObservedUrl;
 import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository; 
-
-import com.pingme.ping.daos.model.*;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ObservationRepository extends JpaRepository<Observation, Long> {
-  List<Observation> findByObservedurl(ObservedURL observedURL);
+  List<Observation> findByObservedUrl(ObservedUrl observedUrl);
 }

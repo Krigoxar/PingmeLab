@@ -1,112 +1,107 @@
 package com.pingme.ping.services;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-
 import com.pingme.ping.daos.CategoryRepository;
-import com.pingme.ping.daos.URLRepository;
-import com.pingme.ping.daos.model.*;
+import com.pingme.ping.daos.UrlRepository;
+import com.pingme.ping.daos.model.Category;
+import com.pingme.ping.daos.model.ObservedUrl;
 import com.pingme.ping.dtos.NewURL;
 import com.pingme.ping.dtos.ObservationsCount;
-
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
+import org.springframework.stereotype.Service;
 
 @Service
-public class ObservedURLService {
+public class ObservedUrlService {
 
-    private URLRepository observedURLRepo;
-    private CategoryRepository categoryRepo;
+  private UrlRepository observedUrlRepo;
+  private CategoryRepository categoryRepo;
 
-    public ObservedURLService(URLRepository observedURLRepo, CategoryRepository categoryRepo) {
-        this.observedURLRepo = observedURLRepo;
-        this.categoryRepo = categoryRepo;
-    }
-    
-    public Category putToCategory(Long uRLId, Long categoryId) {
-        var bag = categoryRepo.findById(categoryId);
-        var url = observedURLRepo.findById(uRLId);
-        if(bag.isEmpty() || url.isEmpty()) {
-            return null;
-        }
+  public ObservedUrlService(UrlRepository observedUrlRepo, CategoryRepository categoryRepo) {
+    this.observedUrlRepo = observedUrlRepo;
+    this.categoryRepo = categoryRepo;
+  }
 
-        var category = bag.get();
-        category.getUrls().add(url.get());
-        
-        return categoryRepo.save(category);
+  public Category putToCategory(Long urlId, Long categoryId) {
+    var bag = categoryRepo.findById(categoryId);
+    var url = observedUrlRepo.findById(urlId);
+    if (bag.isEmpty() || url.isEmpty()) {
+      return null;
     }
 
-    public Category removeFromCategory(Long uRLId, Long categoryId) {
-        var bag = categoryRepo.findById(categoryId);
-        var url = observedURLRepo.findById(uRLId);
-        if(bag.isEmpty() || url.isEmpty()) {
-            return null;
-        }
+    var category = bag.get();
+    category.getUrls().add(url.get());
 
-        var category = bag.get();
-        if(!category.getUrls().contains(url.get())) {
-            return null;
-        }
+    return categoryRepo.save(category);
+  }
 
-        category.getUrls().remove(url.get());
-        
-        return categoryRepo.save(category);
+  public Category removeFromCategory(Long urlId, Long categoryId) {
+    var bag = categoryRepo.findById(categoryId);
+    var url = observedUrlRepo.findById(urlId);
+    if (bag.isEmpty() || url.isEmpty()) {
+      return null;
     }
 
-    public List<ObservedURL> getAllObservableURLs() {
-        return observedURLRepo.findAll();
+    var category = bag.get();
+    if (!category.getUrls().contains(url.get())) {
+      return null;
     }
 
-    public List<ObservedURL> getObservableURLbyURL(String url) {
-        return observedURLRepo.findByUrl(url);
+    category.getUrls().remove(url.get());
+
+    return categoryRepo.save(category);
+  }
+
+  public List<ObservedUrl> getAllObservableUrls() {
+    return observedUrlRepo.findAll();
+  }
+
+  public List<ObservedUrl> getObservableUrlbyUrl(String url) {
+    return observedUrlRepo.findByUrl(url);
+  }
+
+  public ObservedUrl addObservedUrl(NewURL url) {
+    return observedUrlRepo.save(new ObservedUrl(url.url(), new Date()));
+  }
+
+  public boolean deleteObservedUrl(Long id) {
+    var forDelete = observedUrlRepo.findById(id);
+
+    if (forDelete.isEmpty()) {
+      return false;
     }
 
-    public ObservedURL addObservedURL(NewURL url) {
-        return observedURLRepo.save(new ObservedURL(url.url(), new Date()));
+    List<Category> categories = new LinkedList<>();
+
+    forDelete.get().getBags().forEach(categories::add);
+
+    for (Category category : categories) {
+      category.getUrls().remove(forDelete.get());
     }
 
-    public boolean deleteObservedURL(Long id) {
-        var forDelete = observedURLRepo.findById(id);
+    observedUrlRepo.delete(forDelete.get());
+    return true;
+  }
 
-        if(forDelete.isEmpty()) 
-        {
-            return false;
-        }
-        
-        List<Category> categories = new LinkedList<Category>();
+  public ObservedUrl updateObservedUrl(ObservedUrl entity, Long id) {
 
-        forDelete.get().getBags().forEach(cat -> categories.add(cat));
-
-        for(Category category : categories)
-        {
-            category.getUrls().remove(forDelete.get());
-        }
-
-        observedURLRepo.delete(forDelete.get());
-        return true;
+    var observedUrlDb = observedUrlRepo.findById(id);
+    if (!observedUrlDb.isPresent()) {
+      return null;
     }
 
-    public ObservedURL updateObservedURL(ObservedURL entity, Long id) {
+    var observedUrl = observedUrlDb.get();
+    observedUrl.setDate(entity.getDate());
+    observedUrl.setUrl(entity.getUrl());
+    return observedUrl;
+  }
 
-        var observedUrlDB = observedURLRepo.findById(id);
-        if(!observedUrlDB.isPresent()){
-            return null;
-        }
-
-        var observedURL = observedUrlDB.get();    
-        observedURL.setDate(entity.getDate());
-        observedURL.setURL(entity.getURL());
-        return observedURL;
+  public ObservationsCount getObservatioinsCount(String url) {
+    var target = observedUrlRepo.findByUrl(url);
+    if (target.isEmpty()) {
+      return null;
     }
-
-    public ObservationsCount getObservatioinsCount(String url) {
-        var target = observedURLRepo.findByUrl(url);
-        if(target.isEmpty())
-        {
-            return null;
-        }
-        Long count = observedURLRepo.countObservations(target.get(0));
-        return new ObservationsCount(count, url);
-    }
+    Long count = observedUrlRepo.countObservations(target.get(0));
+    return new ObservationsCount(count, url);
+  }
 }
