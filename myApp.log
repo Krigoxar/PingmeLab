@@ -1367,3 +1367,4 @@ Caused by: org.postgresql.util.PSQLException: ־״ֱָÊְ: סעמכבוצ "observed_urls_id"
 2024-04-12T20:32:33.335+03:00 ERROR 21520 --- [http-nio-8080-exec-1] c.p.ping.components.ExceptionsHandler    : ERROR, 404 CODE
 2024-04-12T20:32:39.125+03:00  INFO 21520 --- [http-nio-8080-exec-1] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 626 ms
 2024-04-12T20:33:22.817+03:00  WARN 21520 --- [http-nio-8080-exec-2] o.s.web.servlet.PageNotFound             : No mapping for GET /ping
+2024-04-12T20:33:22.818+03:00 ERROR 21520 --- [http-nio-8080-exec-2] c.p.ping.components.ExceptionsHandler    : ERROR, 404 CODE
