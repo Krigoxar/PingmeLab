@@ -10,18 +10,31 @@ import java.util.Timer;
 import java.util.TimerTask;
 import org.springframework.stereotype.Service;
 
+/**
+ * The `StatsService` class in Java periodically checks the reachability of observed URLs and saves
+ * the observation results.
+ */
 @Service
 public class StatsService {
 
   private ObservationRepository observationRepo;
   private UrlRepository observedUrlRepository;
 
+  /**
+   * This code snippet is from a Java class `StatsService` that is responsible for periodically
+   * checking the reachability of observed URLs and saving the observation results. Let's break down
+   * the important parts of the code:
+   */
   public StatsService(UrlRepository observedUrlRepo, ObservationRepository observationRepo) {
     this.observedUrlRepository = observedUrlRepo;
     this.observationRepo = observationRepo;
     startCorutine();
   }
 
+  /**
+   * The `startCorutine` function uses a Timer to periodically check the reachability of observed
+   * URLs and save the observations in a repository.
+   */
   public void startCorutine() {
     Timer timer = new Timer();
     TimerTask hourlyTask =
@@ -39,7 +52,7 @@ public class StatsService {
               var res = new Observation();
               res.setResponding(isResponding);
               res.setObservationDate(new Date());
-              res.setObservedurl(observedUrl);
+              res.setObservedUrl(observedUrl);
               observationRepo.save(res);
             }
           }

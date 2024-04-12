@@ -12,6 +12,10 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import java.util.Set;
 
+/**
+ * The Category class represents a category entity with a name, id, and a set of ObservedUrl
+ * entities associated through a many-to-many relationship.
+ */
 @Entity
 @Table(name = "categorys")
 public class Category {
@@ -24,7 +28,7 @@ public class Category {
   @JoinTable(
       name = "category_url",
       joinColumns = @JoinColumn(name = "categorys_id"),
-      inverseJoinColumns = @JoinColumn(name = "ObservedURLs_id"))
+      inverseJoinColumns = @JoinColumn(name = "ObservedUrls_id"))
   @JsonProperty(access = JsonProperty.Access.READ_ONLY)
   private Set<ObservedUrl> urls;
 

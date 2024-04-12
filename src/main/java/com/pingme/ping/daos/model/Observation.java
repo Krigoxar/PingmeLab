@@ -14,6 +14,10 @@ import java.util.Date;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+/**
+ * The `Observation` class represents an entity for storing observations with attributes such as id,
+ * observation date, and response status.
+ */
 @Entity
 @Table(name = "observations")
 public class Observation {
@@ -23,10 +27,10 @@ public class Observation {
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "ObservedURLs_id", nullable = false)
+  @JoinColumn(name = "ObservedUrls_id", nullable = false)
   @OnDelete(action = OnDeleteAction.CASCADE)
   @JsonIgnore
-  private ObservedUrl observedurl;
+  private ObservedUrl observedUrl;
 
   @Column(name = "observationDate")
   private Date observationDate;
@@ -49,12 +53,12 @@ public class Observation {
     return id;
   }
 
-  public ObservedUrl getObservedurl() {
-    return observedurl;
+  public ObservedUrl getObservedUrl() {
+    return observedUrl;
   }
 
-  public void setObservedurl(ObservedUrl observedurl) {
-    this.observedurl = observedurl;
+  public void setObservedUrl(ObservedUrl observedurl) {
+    this.observedUrl = observedurl;
   }
 
   public Date getObservationDate() {

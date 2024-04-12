@@ -4,13 +4,17 @@ import com.pingme.ping.daos.CategoryRepository;
 import com.pingme.ping.daos.UrlRepository;
 import com.pingme.ping.daos.model.Category;
 import com.pingme.ping.daos.model.ObservedUrl;
-import com.pingme.ping.dtos.NewURL;
+import com.pingme.ping.dtos.NewUrl;
 import com.pingme.ping.dtos.ObservationsCount;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
+/**
+ * The `ObservedUrlService` class in Java provides methods for managing observed URLs and
+ * categories.
+ */
 @Service
 public class ObservedUrlService {
 
@@ -22,6 +26,16 @@ public class ObservedUrlService {
     this.categoryRepo = categoryRepo;
   }
 
+  /**
+   * This Java function adds a URL to a category by retrieving the category and URL objects from
+   * repositories and updating the category's list of URLs.
+   *
+   * @param urlId The `urlId` parameter is the unique identifier of the URL that you want to
+   *     associate with a category.
+   * @param categoryId The `categoryId` parameter represents the unique identifier of the category
+   *     to which you want to add the URL.
+   * @return The method `putToCategory` is returning an instance of the `Category` class.
+   */
   public Category putToCategory(Long urlId, Long categoryId) {
     var bag = categoryRepo.findById(categoryId);
     var url = observedUrlRepo.findById(urlId);
@@ -35,6 +49,18 @@ public class ObservedUrlService {
     return categoryRepo.save(category);
   }
 
+  /**
+   * The function removes a URL from a category and saves the updated category.
+   *
+   * @param urlId The `urlId` parameter is the unique identifier of the URL that you want to remove
+   *     from a specific category.
+   * @param categoryId The `categoryId` parameter represents the unique identifier of the category
+   *     from which you want to remove a URL.
+   * @return The `removeFromCategory` method returns a `Category` object after removing a specific
+   *     URL from the category's list of URLs and saving the updated category in the repository. If
+   *     the category or URL is not found, or if the URL is not present in the category's list, the
+   *     method returns `null`.
+   */
   public Category removeFromCategory(Long urlId, Long categoryId) {
     var bag = categoryRepo.findById(categoryId);
     var url = observedUrlRepo.findById(urlId);
@@ -60,10 +86,20 @@ public class ObservedUrlService {
     return observedUrlRepo.findByUrl(url);
   }
 
-  public ObservedUrl addObservedUrl(NewURL url) {
+  public ObservedUrl addObservedUrl(NewUrl url) {
     return observedUrlRepo.save(new ObservedUrl(url.url(), new Date()));
   }
 
+  /**
+   * This Java function deletes an observed URL by removing it from its associated categories and
+   * then deleting it from the repository.
+   *
+   * @param id The `id` parameter is of type `Long` and represents the unique identifier of the
+   *     observed URL that needs to be deleted from the repository.
+   * @return The method `deleteObservedUrl` returns a boolean value - `true` if the observed URL
+   *     with the specified ID was successfully deleted, and `false` if the observed URL with the
+   *     specified ID was not found in the repository.
+   */
   public boolean deleteObservedUrl(Long id) {
     var forDelete = observedUrlRepo.findById(id);
 
@@ -83,6 +119,19 @@ public class ObservedUrlService {
     return true;
   }
 
+  /**
+   * The function updates an ObservedUrl entity with new date and URL based on the provided entity
+   * and ID.
+   *
+   * @param entity The `entity` parameter in the `updateObservedUrl` method represents the new data
+   *     that you want to update for an existing `ObservedUrl` entity. It typically contains the
+   *     updated `date` and `url` values that you want to set for the `ObservedUrl` entity with
+   * @param id The `id` parameter is a `Long` value that represents the unique identifier of the
+   *     ObservedUrl entity that needs to be updated.
+   * @return The method `updateObservedUrl` is returning an `ObservedUrl` object after updating its
+   *     date and URL properties based on the provided `entity` parameter. If the `id` provided does
+   *     not correspond to an existing `ObservedUrl` in the repository, the method returns `null`.
+   */
   public ObservedUrl updateObservedUrl(ObservedUrl entity, Long id) {
 
     var observedUrlDb = observedUrlRepo.findById(id);
@@ -96,6 +145,16 @@ public class ObservedUrlService {
     return observedUrl;
   }
 
+  /**
+   * The function retrieves the count of observations for a given URL from a repository and returns
+   * an ObservationsCount object.
+   *
+   * @param url The `url` parameter is a String that represents the URL for which you want to
+   *     retrieve the observations count.
+   * @return An instance of ObservationsCount is being returned, which contains the count of
+   *     observations for the given URL. If the URL is not found in the repository, null is
+   *     returned.
+   */
   public ObservationsCount getObservatioinsCount(String url) {
     var target = observedUrlRepo.findByUrl(url);
     if (target.isEmpty()) {

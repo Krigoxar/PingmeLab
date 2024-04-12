@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The StatsController class in Java defines a REST API endpoint for retrieving statistics related
+ * to a specified URL.
+ */
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/api")
@@ -27,6 +31,18 @@ public class StatsController {
     this.observedUrlObservedUrlService = observedUrlObservedUrlService;
   }
 
+  /**
+   * This Java function retrieves statistics for a given URL by querying observed URLs and
+   * observations related to it.
+   *
+   * @param url The code snippet you provided is a Spring MVC controller method that handles a GET
+   *     request mapping to "/stats". The method takes a required request parameter "url" and
+   *     returns statistics (UrlStats) for the specified URL.
+   * @return The `getAllStats` method returns a `ResponseEntity` containing the `UrlStats` object
+   *     for the specified URL. If the URL is not found in the list of observed URLs, a `NOT_FOUND`
+   *     status is returned. If the URL is found, the method constructs the `UrlStats` object using
+   *     the observed URL and its associated observations, and returns it with an `OK` status.
+   */
   @GetMapping("/stats")
   public ResponseEntity<UrlStats> getAllStats(@RequestParam(required = true) String url) {
 

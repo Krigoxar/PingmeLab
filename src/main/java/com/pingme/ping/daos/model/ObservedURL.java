@@ -12,6 +12,10 @@ import jakarta.persistence.Table;
 import java.util.Date;
 import java.util.Set;
 
+/**
+ * The `ObservedUrl` class represents an entity for storing observed URLs with associated
+ * observations and categories in a Java application.
+ */
 @Entity
 @Table(name = "ObservedUrls")
 public class ObservedUrl {
@@ -20,7 +24,7 @@ public class ObservedUrl {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "observedurls_generator")
   private long id;
 
-  @OneToMany(mappedBy = "observedurl")
+  @OneToMany(mappedBy = "observedUrl")
   @JsonIgnore
   private Set<Observation> observations;
 
