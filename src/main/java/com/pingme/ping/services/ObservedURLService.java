@@ -163,4 +163,25 @@ public class ObservedUrlService {
     Long count = observedUrlRepo.countObservations(target.get(0));
     return new ObservationsCount(count, url);
   }
+
+  /**
+   * the addObservedUrls.
+   *
+   * @param urlDto the urlDto
+   * @return the call
+   */
+  public List<ObservedUrl> addObservedUrls(List<NewUrl> urlDto) {
+
+    if (urlDto.isEmpty()) {
+      return new LinkedList<>();
+    }
+
+    var res = new LinkedList<ObservedUrl>();
+
+    urlDto.stream()
+        .distinct()
+        .forEach(url -> res.add(observedUrlRepo.save(new ObservedUrl(url.url()))));
+
+    return res;
+  }
 }

@@ -90,6 +90,12 @@ public class UrlController {
     return pingService.addObservedUrl(urlDto);
   }
 
+  @PostMapping("/pings")
+  public List<ObservedUrl> createNewObservableUrlBulk(
+      @RequestBody(required = true) List<NewUrl> urlDto) {
+    return pingService.addObservedUrls(urlDto);
+  }
+
   /**
    * This Java function deletes an observed URL by its ID and returns either a status of NO_CONTENT
    * if successful or NOT_FOUND if the URL was not found.

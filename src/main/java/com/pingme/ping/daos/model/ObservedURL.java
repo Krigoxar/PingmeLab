@@ -48,6 +48,11 @@ public class ObservedUrl {
 
   public ObservedUrl() {}
 
+  public ObservedUrl(String url) {
+    this.url = url;
+    this.observationStartDate = new Date();
+  }
+
   public ObservedUrl(String url, Date observationStartDate) {
     this.url = url;
     this.observationStartDate = observationStartDate;

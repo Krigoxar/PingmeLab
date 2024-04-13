@@ -1,8 +1,8 @@
 package com.pingme.ping.components;
 
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Cache<T1, T2> {
   private Map<T1, T2> map = new HashMap<>();
-  private Random rand = new Random();
+  private SecureRandom rand = new SecureRandom();
   public static final int SIZE = 10;
 
   public boolean containsKey(T1 param) {
