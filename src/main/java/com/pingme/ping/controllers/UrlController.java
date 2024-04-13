@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * The UrlController class in Java defines REST endpoints for managing observed URLs with CRUD
  * operations.
  */
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:9000")
 @RestController
 @RequestMapping("/api")
 public class UrlController {
