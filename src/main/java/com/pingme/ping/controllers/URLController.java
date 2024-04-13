@@ -90,7 +90,7 @@ public class UrlController {
     return pingService.addObservedUrl(urlDto);
   }
 
-  @PostMapping("/pings")
+  @PostMapping("/pings/bulk")
   public List<ObservedUrl> createNewObservableUrlBulk(
       @RequestBody(required = true) List<NewUrl> urlDto) {
     return pingService.addObservedUrls(urlDto);
