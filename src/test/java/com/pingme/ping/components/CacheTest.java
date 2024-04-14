@@ -19,7 +19,7 @@ class CacheTest {
   void maxSizeTest() {
     int size = Cache.MAX_SIZE;
     cache.clear();
-    for (int i = 0; i > size; i++) {
+    for (int i = 0; i < size; i++) {
       cache.put(Integer.toString(i), i);
     }
 
