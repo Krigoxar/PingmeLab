@@ -37,7 +37,7 @@ public class Cache<T1, T2> {
   public Object put(T1 param1, T2 param2) {
     if (map.size() == MAX_SIZE) {
       var obj = map.keySet().toArray();
-      int i = Math.abs(rand.nextInt()) % MAX_SIZE;
+      int i = rand.nextInt(0, MAX_SIZE);
       map.remove(obj[i]);
       return map.put(param1, param2);
     }
