@@ -31,4 +31,16 @@ class CacheTest {
     assertEquals(11, cache.get("11"));
     assertEquals(Cache.MAX_SIZE, cache.size());
   }
+
+  @Test
+  void clearTest() {
+    int size = Cache.MAX_SIZE * 2;
+    for (int i = 0; i < size; i++) {
+      cache.put(Integer.toString(i), i);
+    }
+
+    cache.clear();
+
+    assertEquals(0, cache.size());
+  }
 }
