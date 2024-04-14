@@ -1,7 +1,9 @@
 package com.pingme.ping.components;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,5 +53,13 @@ public class CacheTest {
     cache.put("key2", "value2");
     cache.remove("key1");
     assertNull(cache.get("key1"));
+  }
+
+  @Test
+  void testContains() {
+    cache.put("key1", "value1");
+    cache.put("key2", "value2");
+    assertTrue(cache.containsKey("key1"));
+    assertFalse(cache.containsKey("sadadsads"));
   }
 }
