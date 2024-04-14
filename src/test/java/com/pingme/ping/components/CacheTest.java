@@ -1,6 +1,7 @@
 package com.pingme.ping.components;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,8 +46,10 @@ class CacheTest {
   }
 
   @Test
-  void nullClearTest() {
-    cache.clear();
-    assertEquals(0, cache.size());
-  }
+    void testRemoveKey() {
+        cache.put("key1", "value1");
+        cache.put("key2", "value2");
+        cache.remove("key1");
+        assertNull(cache.get("key1"));
+    }
 }
