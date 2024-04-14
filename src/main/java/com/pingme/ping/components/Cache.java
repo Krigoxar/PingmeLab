@@ -35,7 +35,7 @@ public class Cache<T1, T2> {
    * @return The method is returning the result of the `map.put(param1, param2)` call.
    */
   public Object put(T1 param1, T2 param2) {
-    if (map.size() > MAX_SIZE) {
+    if (map.size() == MAX_SIZE) {
       var obj = map.keySet().toArray();
       int i = rand.nextInt() % MAX_SIZE;
       map.remove(obj[i]);
