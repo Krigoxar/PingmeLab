@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -13,12 +12,10 @@ import com.pingme.ping.components.Cache;
 import com.pingme.ping.daos.CategoryRepository;
 import com.pingme.ping.daos.model.Category;
 import com.pingme.ping.dtos.CategoryName;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -72,14 +69,14 @@ class CategoryServiceTest {
     assertNull(service.getCategoryByName(mCategory.getName()));
   }
 
-  @Test 
+  @Test
   void addTest() {
     Category mCategory = new Category("Test");
     service.addCategory(new CategoryName(mCategory.getName()));
     verify(categoryRepository).save(any(Category.class));
   }
 
-  @Test 
+  @Test
   void deleteTestInCash() {
     Category mCategory = new Category("Test");
     Long mId = 1L;
@@ -100,16 +97,15 @@ class CategoryServiceTest {
     Category mFromCategory = new Category("Test1");
     Long mFromId = 1L;
 
-    Category mToCategory= new Category("Test2");
+    Category mToCategory = new Category("Test2");
 
     when(categoryRepository.findById(mFromId)).thenReturn(Optional.ofNullable(null));
 
     assertNull(service.updateCategory(mToCategory, mFromId));
 
-
     when(categoryRepository.findById(mFromId)).thenReturn(Optional.ofNullable(mFromCategory));
     when(categoryRepository.save(mToCategory)).thenReturn(mToCategory);
-    
+
     assertEquals(service.updateCategory(mToCategory, mFromId), mToCategory);
 
     verify(cache).remove(mFromCategory.getName());

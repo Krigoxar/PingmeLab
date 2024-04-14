@@ -38,7 +38,15 @@ public class Observation {
   @Column(name = "IsResponding")
   private boolean isResponding;
 
-  @Override
+  public Observation() {
+  }
+
+  public Observation(ObservedUrl observedUrl, boolean isResponding) {
+    this.observedUrl = observedUrl;
+    this.isResponding = isResponding;
+}
+
+@Override
   public String toString() {
     return "Observation [id="
         + id

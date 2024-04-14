@@ -45,12 +45,7 @@ public class ObservationService {
    *     found in the repository, it returns `null`.
    */
   public Observation addObservation(NewUrl url) {
-    boolean isResponding = false;
-    try {
-      isResponding = InetAddress.getByName(url.url()).isReachable(1000);
-    } catch (Exception e) {
-      isResponding = false;
-    }
+    boolean isResponding = isResponding(url);
     var res = new Observation();
     res.setResponding(isResponding);
     res.setObservationDate(new Date());
@@ -60,6 +55,15 @@ public class ObservationService {
     }
     res.setObservedUrl(obsurl.get(0));
     return observationRepository.save(res);
+  }
+
+  public boolean isResponding(NewUrl url)
+  {
+    try {
+      return InetAddress.getByName(url.url()).isReachable(1000);
+    } catch (Exception e) {
+      return false;
+    }
   }
 
   /**
