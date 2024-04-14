@@ -43,4 +43,10 @@ class CacheTest {
 
     assertEquals(0, cache.size());
   }
+
+  @Test
+  void nullClearTest() {
+    cache.clear();
+    assertEquals(0, cache.size());
+  }
 }
