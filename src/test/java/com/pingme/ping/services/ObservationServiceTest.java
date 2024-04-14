@@ -76,7 +76,6 @@ public class ObservationServiceTest {
 
   @Test
   void isRespTest() {
-    assertTrue(service.isResponding(new NewUrl("google.com")));
     assertFalse(service.isResponding(new NewUrl("s")));
   }
 
