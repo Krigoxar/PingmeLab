@@ -10,6 +10,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -39,6 +41,7 @@ public class Category {
 
   public Category(String name) {
     this.name = name;
+    urls = new HashSet<>();
   }
 
   public String getName() {

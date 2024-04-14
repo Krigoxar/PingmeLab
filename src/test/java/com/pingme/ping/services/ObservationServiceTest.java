@@ -24,7 +24,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 /** The Tests. */
-public class ObservationServiceTest {
+ class ObservationServiceTest {
 
   @InjectMocks ObservationService service;
 

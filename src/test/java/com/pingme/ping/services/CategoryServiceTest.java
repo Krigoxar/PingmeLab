@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.pingme.ping.components.Cache;
@@ -21,6 +22,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.verification.VerificationModeFactory;
+import org.mockito.verification.VerificationMode;
 
 /** The Tests. */
 class CategoryServiceTest {
@@ -63,6 +66,7 @@ class CategoryServiceTest {
     when(categoryRepository.findByName(mCategory.getName())).thenReturn(Arrays.asList(mCategory));
 
     assertEquals(mCategory, service.getCategoryByName(mCategory.getName()));
+    verify(cache, VerificationModeFactory.times(0)).get(any());
 
     when(categoryRepository.findByName(mCategory.getName())).thenReturn(new ArrayList<>());
 
