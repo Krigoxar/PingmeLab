@@ -1,8 +1,6 @@
 package com.pingme.ping.services;
 
-import com.pingme.ping.daos.UrlRepository;
-import com.pingme.ping.daos.model.ObservedUrl;
-import com.pingme.ping.dtos.NewUrl;
+import com.pingme.ping.components.HourlyCheckTask;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.springframework.stereotype.Service;
@@ -14,19 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class StatsService {
 
-  private UrlRepository observedUrlRepository;
-  private ObservationService observationService;
   private Timer timer;
+  private TimerTask hourlyTask;
 
   /**
    * This code snippet is from a Java class `StatsService` that is responsible for periodically
    * checking the reachability of observed URLs and saving the observation results. Let's break down
    * the important parts of the code:
    */
-  public StatsService(
-      UrlRepository observedUrlRepo, ObservationService observationService, Timer timer) {
-    this.observedUrlRepository = observedUrlRepo;
-    this.observationService = observationService;
+  public StatsService(HourlyCheckTask hourlyTask, Timer timer) {
+    this.hourlyTask = hourlyTask;
     this.timer = timer;
     startCorutine();
   }
@@ -36,16 +31,6 @@ public class StatsService {
    * URLs and save the observations in a repository.
    */
   public void startCorutine() {
-    TimerTask hourlyTask =
-        new TimerTask() {
-          @Override
-          public void run() {
-            var urls = observedUrlRepository.findAll();
-            for (ObservedUrl observedUrl : urls) {
-              observationService.addObservation(new NewUrl(observedUrl.getUrl()));
-            }
-          }
-        };
-    timer.schedule(hourlyTask, 10L, 1000 * 60 * 5L);
+    timer.schedule(hourlyTask, 0L, 1000 * 60 * 5L);
   }
 }

@@ -3,8 +3,12 @@ package com.pingme.ping.services;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import com.pingme.ping.components.HourlyCheckTask;
 import com.pingme.ping.daos.UrlRepository;
+import com.pingme.ping.daos.model.ObservedUrl;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +23,8 @@ class StatsServiceTest {
 
   @InjectMocks StatsService service;
 
+  @InjectMocks HourlyCheckTask checkTask;
+
   @Mock ObservationService observationService;
 
   @Mock UrlRepository observedUrlRepository;
@@ -28,12 +34,19 @@ class StatsServiceTest {
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
+    checkTask = new HourlyCheckTask(observedUrlRepository, observationService);
+    service = new StatsService(checkTask, timer);
   }
 
   @Test
   void startCorutineTest() {
-    service.startCorutine();
-    verify(timer, VerificationModeFactory.times(2))
+    when(observedUrlRepository.findAll())
+        .thenReturn(Arrays.asList(new ObservedUrl("1"), new ObservedUrl("2")));
+
+    checkTask.run();
+    verify(timer, VerificationModeFactory.times(1))
         .schedule(any(TimerTask.class), anyLong(), anyLong());
+    verify(observedUrlRepository).findAll();
+    verify(observationService, VerificationModeFactory.atLeast(1)).addObservation(any());
   }
 }
