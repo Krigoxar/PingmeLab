@@ -22,10 +22,12 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class ExceptionsHandler {
   private static final Logger log = LoggerFactory.getLogger(ExceptionsHandler.class);
 
+  /** The ErrorHandling function.F */
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   @ExceptionHandler(RuntimeException.class)
   public ErrorResponse handleInternalServerError(RuntimeException ex) {
-    log.error("ERROR, 500 CODE");
+    var str = String.format("ERROR, 500 CODE %s", ex.getLocalizedMessage());
+    log.error(str);
     return new ErrorResponse("500 ERROR, INTERNAL SERVER ERROR");
   }
 

@@ -36,4 +36,52 @@ public class LoggingAspect {
   public void logUpdate(Object result) {
     logger.info("Updated: {}", result);
   }
+
+  @Pointcut("execution(* com.pingme.ping.controllers.CategoryController.*(..))")
+  public void countCategory() {}
+
+  @Pointcut("execution(* com.pingme.ping.controllers.ObservationsController.*(..))")
+  public void countObservations() {}
+
+  @Pointcut("execution(* com.pingme.ping.controllers.StatsController.*(..))")
+  public void countStats() {}
+
+  @Pointcut("execution(* com.pingme.ping.controllers.UrlController.*(..))")
+  public void countUrl() {}
+
+  /** The Function. */
+  @AfterReturning(pointcut = "countCategory()")
+  public void exCountCategory() {
+    var inst = MultitonCounter.getInstance("Category");
+    inst.count();
+    var res = String.format("Category count: %d.", inst.getCount());
+    logger.info(res);
+  }
+
+  /** The Function. */
+  @AfterReturning(pointcut = "countObservations()")
+  public void excountObservations() {
+    var inst = MultitonCounter.getInstance("Observations");
+    inst.count();
+    var res = String.format("Observations count: %d.", inst.getCount());
+    logger.info(res);
+  }
+
+  /** The Function. */
+  @AfterReturning(pointcut = "countStats()")
+  public void excountStats() {
+    var inst = MultitonCounter.getInstance("Stats");
+    inst.count();
+    var res = String.format("Stats count: %d.", inst.getCount());
+    logger.info(res);
+  }
+
+  /** The Function. */
+  @AfterReturning(pointcut = "countUrl()")
+  public void excountUrl() {
+    var inst = MultitonCounter.getInstance("Url");
+    inst.count();
+    var res = String.format("Url count: %d.", inst.getCount());
+    logger.info(res);
+  }
 }
