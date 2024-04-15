@@ -1,15 +1,11 @@
 package com.pingme.ping.controllers;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-import com.pingme.ping.daos.model.Observation;
 import com.pingme.ping.daos.model.ObservedUrl;
-import com.pingme.ping.dtos.NewUrl;
 import com.pingme.ping.services.ObservationService;
 import com.pingme.ping.services.ObservedUrlService;
 import java.util.Arrays;
@@ -22,13 +18,13 @@ import org.mockito.MockitoAnnotations;
 /** The Tests. */
 class StatsControllerTest {
 
-    @InjectMocks StatsController controller;
+  @InjectMocks StatsController controller;
 
-    @Mock ObservationService observationService;
+  @Mock ObservationService observationService;
 
-    @Mock ObservedUrlService observedUrlObservedUrlService;
+  @Mock ObservedUrlService observedUrlObservedUrlService;
 
-    @BeforeEach
+  @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
   }
@@ -37,7 +33,8 @@ class StatsControllerTest {
   void getAllStatsTest() {
     when(observedUrlObservedUrlService.getObservableUrlbyUrl(any())).thenReturn(Arrays.asList());
     assertNull(controller.getAllStats("Test").getBody());
-    when(observedUrlObservedUrlService.getObservableUrlbyUrl(any())).thenReturn(Arrays.asList(new ObservedUrl()));
+    when(observedUrlObservedUrlService.getObservableUrlbyUrl(any()))
+        .thenReturn(Arrays.asList(new ObservedUrl()));
     assertNotNull(controller.getAllStats("Test").getBody());
   }
 }
