@@ -6,6 +6,9 @@ import com.pingme.ping.daos.model.Category;
 import com.pingme.ping.daos.model.ObservedUrl;
 import com.pingme.ping.dtos.NewUrl;
 import com.pingme.ping.dtos.ObservationsCount;
+
+import jakarta.transaction.Transactional;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,6 +39,7 @@ public class ObservedUrlService {
    *     to which you want to add the URL.
    * @return The method `putToCategory` is returning an instance of the `Category` class.
    */
+  @Transactional
   public Category putToCategory(Long urlId, Long categoryId) {
     var bag = categoryRepo.findById(categoryId);
     var url = observedUrlRepo.findById(urlId);
@@ -61,6 +65,7 @@ public class ObservedUrlService {
    *     the category or URL is not found, or if the URL is not present in the category's list, the
    *     method returns `null`.
    */
+  @Transactional
   public Category removeFromCategory(Long urlId, Long categoryId) {
     var bag = categoryRepo.findById(categoryId);
     var url = observedUrlRepo.findById(urlId);
@@ -86,7 +91,13 @@ public class ObservedUrlService {
     return observedUrlRepo.findByUrl(url);
   }
 
+  /**
+   * This Java function.
+   */
   public ObservedUrl addObservedUrl(NewUrl url) {
+    if (url == null) {
+      return null;
+    }
     return observedUrlRepo.save(new ObservedUrl(url.url(), new Date()));
   }
 
@@ -100,6 +111,7 @@ public class ObservedUrlService {
    *     with the specified ID was successfully deleted, and `false` if the observed URL with the
    *     specified ID was not found in the repository.
    */
+  @Transactional
   public boolean deleteObservedUrl(Long id) {
     var forDelete = observedUrlRepo.findById(id);
 

@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -48,14 +49,18 @@ public class ObservedUrl {
 
   public ObservedUrl() {}
 
+  /** The Constructor.*/
   public ObservedUrl(String url) {
     this.url = url;
     this.observationStartDate = new Date();
+    this.bags = new HashSet<>();
   }
 
+  /** The Constructor.*/
   public ObservedUrl(String url, Date observationStartDate) {
     this.url = url;
     this.observationStartDate = observationStartDate;
+    this.bags = new HashSet<>();
   }
 
   public long getId() {

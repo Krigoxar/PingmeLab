@@ -24,7 +24,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 /** The Tests. */
- class ObservationServiceTest {
+class ObservationServiceTest {
 
   @InjectMocks ObservationService service;
 
@@ -41,22 +41,22 @@ import org.mockito.MockitoAnnotations;
 
   @Test
   void findAllTest() {
-    List<Observation> mUrls =
+    List<Observation> murls =
         Arrays.asList(new Observation(observedUrl, true), new Observation(observedUrl, false));
 
-    when(observationRepository.findAll()).thenReturn(mUrls);
+    when(observationRepository.findAll()).thenReturn(murls);
 
-    assertEquals(mUrls, service.getAllObservations());
+    assertEquals(murls, service.getAllObservations());
   }
 
   @Test
   void findAllByNameTest() {
-    List<Observation> mUrls =
+    List<Observation> murls =
         Arrays.asList(new Observation(observedUrl, true), new Observation(observedUrl, false));
 
-    when(observationRepository.findByObservedUrl(observedUrl)).thenReturn(mUrls);
+    when(observationRepository.findByObservedUrl(observedUrl)).thenReturn(murls);
 
-    assertEquals(mUrls, service.getObservationsByUrl(observedUrl));
+    assertEquals(murls, service.getObservationsByUrl(observedUrl));
   }
 
   @Test
@@ -91,18 +91,18 @@ import org.mockito.MockitoAnnotations;
 
   @Test
   void updateTest() {
-    Observation mFromObs = new Observation();
-    Long mId = 1L;
+    Observation mfromObs = new Observation();
+    Long mid = 1L;
 
-    Observation mToObs = new Observation();
+    Observation mtoObs = new Observation();
 
-    when(observationRepository.findById(mId)).thenReturn(Optional.ofNullable(null));
+    when(observationRepository.findById(mid)).thenReturn(Optional.ofNullable(null));
 
-    assertNull(service.updateObservation(mToObs, mId));
+    assertNull(service.updateObservation(mtoObs, mid));
 
-    when(observationRepository.findById(mId)).thenReturn(Optional.of(mFromObs));
-    when(observationRepository.save(any(Observation.class))).thenReturn(mToObs);
+    when(observationRepository.findById(mid)).thenReturn(Optional.of(mfromObs));
+    when(observationRepository.save(any(Observation.class))).thenReturn(mtoObs);
 
-    assertEquals(service.updateObservation(mToObs, mId), mToObs);
+    assertEquals(service.updateObservation(mtoObs, mid), mtoObs);
   }
 }
