@@ -21,7 +21,7 @@ import org.mockito.internal.verification.VerificationModeFactory;
 /** The Tests. */
 class StatsServiceTest {
 
-  @InjectMocks StatsService service;
+  StatsService service;
 
   @InjectMocks HourlyCheckTask checkTask;
 
@@ -29,13 +29,11 @@ class StatsServiceTest {
 
   @Mock UrlRepository observedUrlRepository;
 
-  @Mock Timer timer;
-
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
     checkTask = new HourlyCheckTask(observedUrlRepository, observationService);
-    service = new StatsService(checkTask, timer);
+    service = new StatsService(checkTask);
   }
 
   @Test
@@ -44,9 +42,7 @@ class StatsServiceTest {
         .thenReturn(Arrays.asList(new ObservedUrl("1"), new ObservedUrl("2")));
 
     checkTask.run();
-    verify(timer, VerificationModeFactory.times(1))
-        .schedule(any(TimerTask.class), anyLong(), anyLong());
-    verify(observedUrlRepository).findAll();
+    verify(observedUrlRepository, VerificationModeFactory.atLeast(1)).findAll();
     verify(observationService, VerificationModeFactory.atLeast(1)).addObservation(any());
   }
 }

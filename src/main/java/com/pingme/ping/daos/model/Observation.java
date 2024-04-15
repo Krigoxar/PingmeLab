@@ -11,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.Date;
+import java.util.Objects;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -38,15 +40,14 @@ public class Observation {
   @Column(name = "IsResponding")
   private boolean isResponding;
 
-  public Observation() {
-  }
+  public Observation() {}
 
   public Observation(ObservedUrl observedUrl, boolean isResponding) {
     this.observedUrl = observedUrl;
     this.isResponding = isResponding;
-}
+  }
 
-@Override
+  @Override
   public String toString() {
     return "Observation [id="
         + id
@@ -86,43 +87,12 @@ public class Observation {
   }
 
   @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + ((id == null) ? 0 : id.hashCode());
-    result = prime * result + ((observationDate == null) ? 0 : observationDate.hashCode());
-    result = prime * result + (isResponding ? 1231 : 1237);
-    return result;
+  public boolean equals(Object o) {
+    return EqualsBuilder.reflectionEquals(this, o);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    Observation other = (Observation) obj;
-    if (id == null) {
-      if (other.id != null) {
-        return false;
-      }
-    } else if (!id.equals(other.id)) {
-      return false;
-    }
-    if (observationDate == null) {
-      if (other.observationDate != null) {
-        return false;
-      }
-    } else if (!observationDate.equals(other.observationDate)) {
-      return false;
-    } else if (isResponding != other.isResponding) {
-      return false;
-    }
-    return true;
+  public int hashCode() {
+    return Objects.hash(id, observedUrl, observationDate, isResponding);
   }
 }

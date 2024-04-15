@@ -11,7 +11,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 
 /**
  * The `ObservedUrl` class represents an entity for storing observed URLs with associated
@@ -49,14 +51,14 @@ public class ObservedUrl {
 
   public ObservedUrl() {}
 
-  /** The Constructor.*/
+  /** The Constructor. */
   public ObservedUrl(String url) {
     this.url = url;
     this.observationStartDate = new Date();
     this.bags = new HashSet<>();
   }
 
-  /** The Constructor.*/
+  /** The Constructor. */
   public ObservedUrl(String url, Date observationStartDate) {
     this.url = url;
     this.observationStartDate = observationStartDate;
@@ -89,45 +91,12 @@ public class ObservedUrl {
   }
 
   @Override
-  public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + (int) (id ^ (id >>> 32));
-    result = prime * result + ((url == null) ? 0 : url.hashCode());
-    result =
-        prime * result + ((observationStartDate == null) ? 0 : observationStartDate.hashCode());
-    return result;
+  public boolean equals(Object o) {
+    return EqualsBuilder.reflectionEquals(this, o);
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
-    }
-    ObservedUrl other = (ObservedUrl) obj;
-    if (id != other.id) {
-      return false;
-    }
-    if (url == null) {
-      if (other.url != null) {
-        return false;
-      }
-    } else if (!url.equals(other.url)) {
-      return false;
-    }
-    if (observationStartDate == null) {
-      if (other.observationStartDate != null) {
-        return false;
-      }
-    } else if (!observationStartDate.equals(other.observationStartDate)) {
-      return false;
-    }
-    return true;
+  public int hashCode() {
+    return Objects.hash(id, observations, bags, url, observationStartDate);
   }
 }

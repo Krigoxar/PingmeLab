@@ -20,9 +20,9 @@ public class StatsService {
    * checking the reachability of observed URLs and saving the observation results. Let's break down
    * the important parts of the code:
    */
-  public StatsService(HourlyCheckTask hourlyTask, Timer timer) {
+  public StatsService(HourlyCheckTask hourlyTask) {
     this.hourlyTask = hourlyTask;
-    this.timer = timer;
+    this.timer = new Timer();
     startCorutine();
   }
 
