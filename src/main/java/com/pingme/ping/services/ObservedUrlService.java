@@ -179,7 +179,9 @@ public class ObservedUrlService {
    * @return the call
    */
   public List<ObservedUrl> addObservedUrls(List<NewUrl> urlDto) {
-
+    if (urlDto == null) {
+      return new LinkedList<>();
+    }
     if (urlDto.isEmpty()) {
       return new LinkedList<>();
     }
