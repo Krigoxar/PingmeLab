@@ -112,7 +112,7 @@ public class CategoryController {
    */
   @PutMapping("/categorys/{id}")
   public ResponseEntity<Category> updateCategory(
-      @PathVariable Long id, @RequestBody Category entity) {
+      @PathVariable(required = true) Long id, @RequestBody(required = true) Category entity) {
     var res = categoryService.updateCategory(entity, id);
     if (res == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);

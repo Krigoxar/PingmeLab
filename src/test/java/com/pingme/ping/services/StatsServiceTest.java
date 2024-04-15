@@ -1,7 +1,6 @@
 package com.pingme.ping.services;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -9,8 +8,6 @@ import com.pingme.ping.components.HourlyCheckTask;
 import com.pingme.ping.daos.UrlRepository;
 import com.pingme.ping.daos.model.ObservedUrl;
 import java.util.Arrays;
-import java.util.Timer;
-import java.util.TimerTask;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
