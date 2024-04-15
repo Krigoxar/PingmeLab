@@ -16,7 +16,6 @@ import com.pingme.ping.daos.UrlRepository;
 import com.pingme.ping.daos.model.Category;
 import com.pingme.ping.daos.model.ObservedUrl;
 import com.pingme.ping.dtos.NewUrl;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,7 +26,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.verification.VerificationModeFactory;
-import org.mockito.verification.VerificationMode;
 
 /** The Tests. */
 class ObservedUrlServiceTest {
@@ -180,7 +178,7 @@ class ObservedUrlServiceTest {
     when(observedUrlRepo.save(any())).thenReturn(observedUrl);
     assertTrue(service.addObservedUrls(null).isEmpty());
     assertTrue(service.addObservedUrls(new ArrayList<>()).isEmpty());
-    
+
     NewUrl murl1 = new NewUrl("Tests1");
     NewUrl murl2 = new NewUrl("Tests2");
     NewUrl murl3 = new NewUrl("Tests2");
