@@ -6,9 +6,7 @@ import com.pingme.ping.daos.model.Category;
 import com.pingme.ping.daos.model.ObservedUrl;
 import com.pingme.ping.dtos.NewUrl;
 import com.pingme.ping.dtos.ObservationsCount;
-
 import jakarta.transaction.Transactional;
-
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -91,9 +89,7 @@ public class ObservedUrlService {
     return observedUrlRepo.findByUrl(url);
   }
 
-  /**
-   * This Java function.
-   */
+  /** This Java function. */
   public ObservedUrl addObservedUrl(NewUrl url) {
     if (url == null) {
       return null;

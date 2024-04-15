@@ -81,12 +81,12 @@ class ObservationServiceTest {
 
   @Test
   void deleteTest() {
-    Long mId = 1L;
-    when(observationRepository.findById(mId)).thenReturn(Optional.of(new Observation()));
-    assertTrue(service.deleteObservation(mId));
+    Long id = 1L;
+    when(observationRepository.findById(id)).thenReturn(Optional.of(new Observation()));
+    assertTrue(service.deleteObservation(id));
 
-    when(observationRepository.findById(mId)).thenReturn(Optional.ofNullable(null));
-    assertFalse(service.deleteObservation(mId));
+    when(observationRepository.findById(id)).thenReturn(Optional.ofNullable(null));
+    assertFalse(service.deleteObservation(id));
   }
 
   @Test

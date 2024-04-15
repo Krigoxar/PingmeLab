@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -17,7 +16,6 @@ import com.pingme.ping.daos.UrlRepository;
 import com.pingme.ping.daos.model.Category;
 import com.pingme.ping.daos.model.ObservedUrl;
 import com.pingme.ping.dtos.NewUrl;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -141,9 +139,9 @@ class ObservedUrlServiceTest {
     when(observedUrlRepo.findById(anyLong())).thenReturn(Optional.ofNullable(mobservedUrl2));
     mobservedUrl2.getBags().add(category1);
     mobservedUrl2.getBags().add(category2);
-    
+
     assertTrue(service.deleteObservedUrl(mid));
-    
+
     verify(observedUrlRepo).delete(mobservedUrl2);
   }
 }

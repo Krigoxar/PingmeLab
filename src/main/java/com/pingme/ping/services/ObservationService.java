@@ -57,8 +57,8 @@ public class ObservationService {
     return observationRepository.save(res);
   }
 
-  public boolean isResponding(NewUrl url)
-  {
+  /** The function. */
+  public boolean isResponding(NewUrl url) {
     try {
       return InetAddress.getByName(url.url()).isReachable(1000);
     } catch (Exception e) {

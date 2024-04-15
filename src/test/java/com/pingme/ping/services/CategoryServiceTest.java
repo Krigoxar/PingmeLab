@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import com.pingme.ping.components.Cache;
@@ -23,7 +22,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.verification.VerificationModeFactory;
-import org.mockito.verification.VerificationMode;
 
 /** The Tests. */
 class CategoryServiceTest {
@@ -41,77 +39,77 @@ class CategoryServiceTest {
 
   @Test
   void findAllTest() {
-    List<Category> mCategorys = Arrays.asList(new Category("1"), new Category("2"));
+    List<Category> mcategorys = Arrays.asList(new Category("1"), new Category("2"));
 
-    when(categoryRepository.findAll()).thenReturn(mCategorys);
+    when(categoryRepository.findAll()).thenReturn(mcategorys);
 
-    assertEquals(mCategorys, service.getAllCategorys());
+    assertEquals(mcategorys, service.getAllCategorys());
   }
 
   @Test
   void findByNameTestInCache() {
-    Category mCategory = new Category("Test");
+    Category mcategory = new Category("Test");
 
-    when(cache.containsKey(mCategory.getName())).thenReturn(true);
-    when(cache.get(mCategory.getName())).thenReturn(mCategory);
+    when(cache.containsKey(mcategory.getName())).thenReturn(true);
+    when(cache.get(mcategory.getName())).thenReturn(mcategory);
 
-    assertEquals(mCategory, service.getCategoryByName(mCategory.getName()));
+    assertEquals(mcategory, service.getCategoryByName(mcategory.getName()));
   }
 
   @Test
   void findByNameTestNoInCache() {
-    Category mCategory = new Category("Test");
+    Category mcategory = new Category("Test");
 
-    when(cache.containsKey(mCategory.getName())).thenReturn(false);
-    when(categoryRepository.findByName(mCategory.getName())).thenReturn(Arrays.asList(mCategory));
+    when(cache.containsKey(mcategory.getName())).thenReturn(false);
+    when(categoryRepository.findByName(mcategory.getName())).thenReturn(Arrays.asList(mcategory));
 
-    assertEquals(mCategory, service.getCategoryByName(mCategory.getName()));
+    assertEquals(mcategory, service.getCategoryByName(mcategory.getName()));
     verify(cache, VerificationModeFactory.times(0)).get(any());
 
-    when(categoryRepository.findByName(mCategory.getName())).thenReturn(new ArrayList<>());
+    when(categoryRepository.findByName(mcategory.getName())).thenReturn(new ArrayList<>());
 
-    assertNull(service.getCategoryByName(mCategory.getName()));
+    assertNull(service.getCategoryByName(mcategory.getName()));
   }
 
   @Test
   void addTest() {
-    Category mCategory = new Category("Test");
-    service.addCategory(new CategoryName(mCategory.getName()));
+    Category mcategory = new Category("Test");
+    service.addCategory(new CategoryName(mcategory.getName()));
     verify(categoryRepository).save(any(Category.class));
   }
 
   @Test
   void deleteTestInCash() {
-    Category mCategory = new Category("Test");
-    Long mId = 1L;
-    when(categoryRepository.findById(mId)).thenReturn(Optional.of(mCategory));
+    Category mcategory = new Category("Test");
+    Long mid = 1L;
+    when(categoryRepository.findById(mid)).thenReturn(Optional.of(mcategory));
 
-    assertTrue(service.deleteCategory(mId));
+    assertTrue(service.deleteCategory(mid));
 
-    verify(cache).remove(mCategory.getName());
-    verify(categoryRepository).delete(mCategory);
+    verify(cache).remove(mcategory.getName());
+    verify(categoryRepository).delete(mcategory);
 
-    when(categoryRepository.findById(mId)).thenReturn(Optional.ofNullable(null));
+    when(categoryRepository.findById(mid)).thenReturn(Optional.ofNullable(null));
 
-    assertFalse(service.deleteCategory(mId));
+    assertFalse(service.deleteCategory(mid));
   }
 
   @Test
   void updateTest() {
-    Category mFromCategory = new Category("Test1");
-    Long mFromId = 1L;
+    Category mfromCategory = new Category("Test1");
+    Long mfromId = 1L;
 
-    Category mToCategory = new Category("Test2");
+    Category mtoCategory = new Category("Test2");
 
-    when(categoryRepository.findById(mFromId)).thenReturn(Optional.ofNullable(null));
+    when(categoryRepository.findById(mfromId)).thenReturn(Optional.ofNullable(null));
 
-    assertNull(service.updateCategory(mToCategory, mFromId));
+    assertNull(service.updateCategory(mtoCategory, mfromId));
 
-    when(categoryRepository.findById(mFromId)).thenReturn(Optional.ofNullable(mFromCategory));
-    when(categoryRepository.save(mToCategory)).thenReturn(mToCategory);
+    when(categoryRepository.findById(mfromId)).thenReturn(Optional.ofNullable(mfromCategory));
+    when(categoryRepository.save(mtoCategory)).thenReturn(mtoCategory);
 
-    assertEquals(service.updateCategory(mToCategory, mFromId), mToCategory);
+    assertEquals(service.updateCategory(mtoCategory, mfromId), mtoCategory);
 
-    verify(cache).remove(mFromCategory.getName());
+    verify(cache).remove(mfromCategory.getName());
   }
 }
