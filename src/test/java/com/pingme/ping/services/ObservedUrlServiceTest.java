@@ -67,7 +67,7 @@ class ObservedUrlServiceTest {
 
   @Test
   void removeFromCategoryTest() {
-    final Category mcategory = new Category("TestCat");
+    final Category mcategory = new Category("TestCat1");
     Long catId = 1L;
     ObservedUrl mobservedUrl = new ObservedUrl("TestUrl");
     Long obsId = 1L;
@@ -98,7 +98,7 @@ class ObservedUrlServiceTest {
   @Test
   void getAllObservableUrlsTest() {
     List<ObservedUrl> mobservedUrls =
-        Arrays.asList(new ObservedUrl("Test1"), new ObservedUrl("Test2"));
+        Arrays.asList(new ObservedUrl("Test1"), new ObservedUrl("Test22"));
     when(observedUrlRepo.findAll()).thenReturn(mobservedUrls);
     assertEquals(service.getAllObservableUrls(), mobservedUrls);
   }
