@@ -25,6 +25,7 @@ class ObservationControllerTest {
   @InjectMocks ObservationsController controller;
 
   @Mock ObservationService observationService;
+
   @Mock ObservedUrlService observedUrlService;
 
   @BeforeEach
@@ -46,11 +47,10 @@ class ObservationControllerTest {
     when(observedUrlService.getObservableUrlbyUrl(any()))
         .thenReturn(Arrays.asList(new ObservedUrl()));
     assertFalse(controller.getAllObservations("Test").getBody().isEmpty());
-    
+
     when(observationService.getObservationsByUrl(any()))
         .thenReturn(Arrays.asList(new Observation()));
-    when(observedUrlService.getObservableUrlbyUrl(any()))
-        .thenReturn(Arrays.asList());
+    when(observedUrlService.getObservableUrlbyUrl(any())).thenReturn(Arrays.asList());
     assertNull(controller.getAllObservations("Test").getBody());
 
     when(observationService.getObservationsByUrl(any()))
