@@ -43,7 +43,7 @@ public class StatsController {
    *     status is returned. If the URL is found, the method constructs the `UrlStats` object using
    *     the observed URL and its associated observations, and returns it with an `OK` status.
    */
-  @GetMapping("/stats")
+  @GetMapping("/stats/url")
   public ResponseEntity<UrlStats> getAllStats(@RequestParam(required = true) String url) {
 
     List<ObservedUrl> observedUrlObservedUrls =
@@ -54,6 +54,24 @@ public class StatsController {
     }
 
     var observedUrlObservedUrl = observedUrlObservedUrls.get(0);
+    UrlStats stats =
+        new UrlStats(
+            observedUrlObservedUrl,
+            observationService.getObservationsByUrl(observedUrlObservedUrl));
+    return new ResponseEntity<>(stats, HttpStatus.OK);
+  }
+
+  /** The function. */
+  @GetMapping("/stats/id")
+  public ResponseEntity<UrlStats> getAllStatsById(@RequestParam(required = true) Long id) {
+
+    var observedUrlObservedUrls = observedUrlObservedUrlService.getObservableUrlById(id);
+
+    if (observedUrlObservedUrls == null) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    var observedUrlObservedUrl = observedUrlObservedUrls;
     UrlStats stats =
         new UrlStats(
             observedUrlObservedUrl,

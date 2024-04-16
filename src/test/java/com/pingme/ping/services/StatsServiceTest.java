@@ -40,6 +40,6 @@ class StatsServiceTest {
 
     checkTask.run();
     verify(observedUrlRepository, VerificationModeFactory.atLeast(1)).findAll();
-    verify(observationService, VerificationModeFactory.atLeast(1)).addObservation(any());
+    verify(observationService, VerificationModeFactory.atLeast(1)).addObservationByUrl(any());
   }
 }

@@ -61,9 +61,9 @@ class ObservationControllerTest {
 
   @Test
   void createObservationTest() {
-    when(observationService.addObservation(any(NewUrl.class))).thenReturn(new Observation());
+    when(observationService.addObservationByUrl(any(NewUrl.class))).thenReturn(new Observation());
     assertNotNull(controller.createObservation(new NewUrl("sss")).getBody());
-    when(observationService.addObservation(any(NewUrl.class))).thenReturn(null);
+    when(observationService.addObservationByUrl(any(NewUrl.class))).thenReturn(null);
     assertNull(controller.createObservation(new NewUrl(null)).getBody());
   }
 

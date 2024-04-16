@@ -44,23 +44,39 @@ public class ObservationService {
    *     observation date, and saving the observation in the repository. If the observed URL is not
    *     found in the repository, it returns `null`.
    */
-  public Observation addObservation(NewUrl url) {
-    boolean isResponding = isResponding(url);
-    var res = new Observation();
-    res.setResponding(isResponding);
-    res.setObservationDate(new Date());
+  public Observation addObservationByUrl(NewUrl url) {
     var obsurl = observedUrlRepository.findByUrl(url.url());
     if (obsurl.isEmpty()) {
       return null;
     }
+
+    boolean isResponding = isResponding(url.url());
+    var res = new Observation();
+    res.setResponding(isResponding);
+    res.setObservationDate(new Date());
     res.setObservedUrl(obsurl.get(0));
     return observationRepository.save(res);
   }
 
   /** The function. */
-  public boolean isResponding(NewUrl url) {
+  public Observation addObservationById(Long id) {
+    var obsurl = observedUrlRepository.findById(id);
+    if (obsurl.isEmpty()) {
+      return null;
+    }
+
+    boolean isResponding = isResponding(obsurl.get().getUrl());
+    var res = new Observation();
+    res.setResponding(isResponding);
+    res.setObservationDate(new Date());
+    res.setObservedUrl(obsurl.get());
+    return observationRepository.save(res);
+  }
+
+  /** The function. */
+  public boolean isResponding(String url) {
     try {
-      return InetAddress.getByName(url.url()).isReachable(1000);
+      return InetAddress.getByName(url).isReachable(1000);
     } catch (Exception e) {
       return false;
     }

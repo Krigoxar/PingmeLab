@@ -71,9 +71,15 @@ public class ObservationsController {
     return new ResponseEntity<>(observations, HttpStatus.OK);
   }
 
-  @PostMapping("/observation")
+  @PostMapping("/observation/url")
   public ResponseEntity<Observation> createObservation(@RequestBody NewUrl url) {
-    return new ResponseEntity<>(observationService.addObservation(url), HttpStatus.OK);
+    return new ResponseEntity<>(observationService.addObservationByUrl(url), HttpStatus.OK);
+  }
+
+  @PostMapping("/observation/id")
+  public ResponseEntity<Observation> createObservationById(
+      @RequestParam(required = true) Long id) {
+    return new ResponseEntity<>(observationService.addObservationById(id), HttpStatus.OK);
   }
 
   /**

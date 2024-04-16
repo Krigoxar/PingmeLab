@@ -89,6 +89,14 @@ public class ObservedUrlService {
     return observedUrlRepo.findByUrl(url);
   }
 
+  public ObservedUrl getObservableUrlById(Long id) {
+    var res = observedUrlRepo.findById(id);
+    if (res.isEmpty()) {
+      return null;
+    }
+    return res.get();
+  }
+
   /** This Java function. */
   public ObservedUrl addObservedUrl(NewUrl url) {
     if (url == null) {

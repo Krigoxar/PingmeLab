@@ -24,7 +24,7 @@ public class HourlyCheckTask extends TimerTask {
   public void run() {
     var urls = observedUrlRepository.findAll();
     for (ObservedUrl observedUrl : urls) {
-      observationService.addObservation(new NewUrl(observedUrl.getUrl()));
+      observationService.addObservationByUrl(new NewUrl(observedUrl.getUrl()));
     }
   }
 }

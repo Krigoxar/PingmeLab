@@ -67,16 +67,16 @@ class ObservationServiceTest {
     Observation obs = new Observation();
     when(observationRepository.save(any(Observation.class))).thenReturn(obs);
 
-    assertEquals(obs, service.addObservation(new NewUrl("google.com")));
+    assertEquals(obs, service.addObservationByUrl(new NewUrl("google.com")));
 
     when(urlRepository.findByUrl(anyString())).thenReturn(new LinkedList<>());
 
-    assertNull(service.addObservation(new NewUrl("google.com")));
+    assertNull(service.addObservationByUrl(new NewUrl("google.com")));
   }
 
   @Test
   void isRespTest() {
-    assertFalse(service.isResponding(new NewUrl("s")));
+    assertFalse(service.isResponding("s"));
   }
 
   @Test
