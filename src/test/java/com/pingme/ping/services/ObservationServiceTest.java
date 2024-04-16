@@ -104,5 +104,6 @@ class ObservationServiceTest {
     when(observationRepository.save(any(Observation.class))).thenReturn(mtoObs);
 
     assertEquals(service.updateObservation(mtoObs, mid), mtoObs);
+    
   }
 }
