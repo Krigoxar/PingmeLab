@@ -37,4 +37,13 @@ class StatsControllerTest {
         .thenReturn(Arrays.asList(new ObservedUrl()));
     assertNotNull(controller.getAllStats("Test").getBody());
   }
+
+  @Test
+  void getAllStatsTestid() {
+    when(observedUrlObservedUrlService.getObservableUrlById(any())).thenReturn(null);
+    assertNull(controller.getAllStatsById(1L).getBody());
+    when(observedUrlObservedUrlService.getObservableUrlById(any()))
+        .thenReturn(new ObservedUrl());
+    assertNotNull(controller.getAllStatsById(1L).getBody());
+  }
 }
