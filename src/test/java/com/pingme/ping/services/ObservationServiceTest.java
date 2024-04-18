@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -72,6 +73,21 @@ class ObservationServiceTest {
     when(urlRepository.findByUrl(anyString())).thenReturn(new LinkedList<>());
 
     assertNull(service.addObservationByUrl(new NewUrl("google.com")));
+  }
+
+  @Test
+  void addIdTest() {
+
+    when(urlRepository.findById(anyLong())).thenReturn(Optional.of(observedUrl));
+
+    Observation obs = new Observation();
+    when(observationRepository.save(any(Observation.class))).thenReturn(obs);
+
+    assertEquals(obs, service.addObservationById(1L));
+
+    when(urlRepository.findById(anyLong())).thenReturn(Optional.ofNullable(null));
+
+    assertNull(service.addObservationById(1L));
   }
 
   @Test
