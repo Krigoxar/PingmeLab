@@ -71,6 +71,7 @@ class ObservationControllerTest {
   void updateObservationTest() {
     Observation mcategory = new Observation();
     Long id = 1L;
+
     when(observationService.updateObservation(any(), any())).thenReturn(null);
     assertNull(controller.updateObservation(id, mcategory).getBody());
     when(observationService.updateObservation(any(), any())).thenReturn(mcategory);
