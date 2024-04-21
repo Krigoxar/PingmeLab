@@ -1,8 +1,9 @@
 package com.pingme.ping.daos.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,25 +16,26 @@ import java.util.Objects;
 import java.util.Set;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * The Category class represents a category entity with a name, id, and a set of ObservedUrl
  * entities associated through a many-to-many relationship.
  */
 @Entity
-@Table(name = "categorys")
+@Table(name = "Category")
 public class Category {
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_generator")
   private Long id;
 
-  @ManyToMany
+  @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
   @JoinTable(
       name = "category_url",
-      joinColumns = @JoinColumn(name = "categorys_id"),
-      inverseJoinColumns = @JoinColumn(name = "ObservedUrls_id"))
-  @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-  private Set<ObservedUrl> urls;
+      joinColumns = @JoinColumn(name = "category_id"),
+      inverseJoinColumns = @JoinColumn(name = "observed_urls_id"))
+  private Set<ObservedUrl> urls = new HashSet<>();
 
   @Column(name = "name")
   private String name;
@@ -42,7 +44,6 @@ public class Category {
 
   public Category(String name) {
     this.name = name;
-    urls = new HashSet<>();
   }
 
   public String getName() {
@@ -62,10 +63,6 @@ public class Category {
     return "Category [id=" + id + ", name=" + name + "]";
   }
 
-  public Set<ObservedUrl> getUrls() {
-    return urls;
-  }
-
   @Override
   public boolean equals(Object o) {
     return EqualsBuilder.reflectionEquals(this, o);
@@ -75,4 +72,13 @@ public class Category {
   public int hashCode() {
     return Objects.hash(id, urls, name);
   }
+
+  public Set<ObservedUrl> getUrls() {
+    return urls;
+  }
+
+  public void setUrls(Set<ObservedUrl> urls) {
+    this.urls = urls;
+  }
+
 }

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * The StatsController class in Java defines a REST API endpoint for retrieving statistics related
  * to a specified URL.
  */
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class StatsController {

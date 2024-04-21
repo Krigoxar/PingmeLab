@@ -2,8 +2,10 @@ package com.pingme.ping.services;
 
 import com.pingme.ping.components.Cache;
 import com.pingme.ping.daos.CategoryRepository;
+import com.pingme.ping.daos.UrlRepository;
 import com.pingme.ping.daos.model.Category;
 import com.pingme.ping.dtos.CategoryName;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,16 @@ import org.springframework.stereotype.Service;
 public class CategoryService {
 
   private CategoryRepository categoryRepository;
+  private UrlRepository observedUrlRepo;
   private Cache<String, Category> cache;
 
-  public CategoryService(CategoryRepository categoryRepository, Cache<String, Category> cash) {
+  /** The Constructor. */
+  public CategoryService(
+      CategoryRepository categoryRepository,
+      Cache<String, Category> cash,
+      UrlRepository observedUrlRepo) {
     this.categoryRepository = categoryRepository;
+    this.observedUrlRepo = observedUrlRepo;
     this.cache = cash;
   }
 
@@ -63,6 +71,9 @@ public class CategoryService {
    * @return The method `addCategory` is returning an object of type `Category`.
    */
   public Category addCategory(CategoryName categoryName) {
+    if (categoryName.name().isEmpty()) {
+      return null;
+    }
     var cat = new Category(categoryName.name());
     cache.put(categoryName.name(), cat);
     return categoryRepository.save(cat);
@@ -113,5 +124,57 @@ public class CategoryService {
     var obj = res.get();
     obj.setName(category.getName());
     return categoryRepository.save(obj);
+  }
+
+  /**
+   * This Java function adds a URL to a category by retrieving the category and URL objects from
+   * repositories and updating the category's list of URLs.
+   *
+   * @param urlId The `urlId` parameter is the unique identifier of the URL that you want to
+   *     associate with a category.
+   * @param categoryId The `categoryId` parameter represents the unique identifier of the category
+   *     to which you want to add the URL.
+   * @return The method `putToCategory` is returning an instance of the `Category` class.
+   */
+  public Category putToCategory(Long urlId, Long categoryId) {
+    var bag = categoryRepository.findById(categoryId);
+    var url = observedUrlRepo.findById(urlId);
+    if (bag.isEmpty() || url.isEmpty()) {
+      return null;
+    }
+
+    var category = bag.get();
+    category.getUrls().add(url.get());
+
+    return categoryRepository.save(category);
+  }
+
+  /**
+   * The function removes a URL from a category and saves the updated category.
+   *
+   * @param urlId The `urlId` parameter is the unique identifier of the URL that you want to remove
+   *     from a specific category.
+   * @param categoryId The `categoryId` parameter represents the unique identifier of the category
+   *     from which you want to remove a URL.
+   * @return The `removeFromCategory` method returns a `Category` object after removing a specific
+   *     URL from the category's list of URLs and saving the updated category in the repository. If
+   *     the category or URL is not found, or if the URL is not present in the category's list, the
+   *     method returns `null`.
+   */
+  public Category removeFromCategory(Long urlId, Long categoryId) {
+    var bag = categoryRepository.findById(categoryId);
+    var url = observedUrlRepo.findById(urlId);
+    if (bag.isEmpty() || url.isEmpty()) {
+      return null;
+    }
+
+    var category = bag.get();
+    if (!category.getUrls().contains(url.get())) {
+      return null;
+    }
+
+    category.getUrls().remove(url.get());
+
+    return categoryRepository.save(category);
   }
 }

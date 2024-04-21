@@ -50,7 +50,7 @@ class CategoryControllerTest {
     when(categoryService.addCategory(any(CategoryName.class))).thenReturn(new Category("cum"));
     assertNotNull(controller.createNewCategory(new CategoryName("sss")));
     when(categoryService.addCategory(any(CategoryName.class))).thenReturn(null);
-    assertNull(controller.createNewCategory(new CategoryName(null)));
+    assertNull(controller.createNewCategory(new CategoryName(null)).getBody());
   }
 
   @Test
@@ -76,9 +76,9 @@ class CategoryControllerTest {
     Category mcategory = new Category();
     Long id1 = 1L;
     Long id2 = 1L;
-    when(observedService.putToCategory(any(), any())).thenReturn(null);
+    when(categoryService.putToCategory(any(), any())).thenReturn(null);
     assertNull(controller.addUrlCategory(id1, id2).getBody());
-    when(observedService.putToCategory(any(), any())).thenReturn(mcategory);
+    when(categoryService.putToCategory(any(), any())).thenReturn(mcategory);
     assertNotNull(controller.addUrlCategory(id1, id2).getBody());
   }
 
@@ -87,9 +87,9 @@ class CategoryControllerTest {
     Category mcategory = new Category();
     Long id1 = 1L;
     Long id2 = 1L;
-    when(observedService.removeFromCategory(any(), any())).thenReturn(null);
+    when(categoryService.removeFromCategory(any(), any())).thenReturn(null);
     assertNull(controller.removeUrlCategory(id1, id2).getBody());
-    when(observedService.removeFromCategory(any(), any())).thenReturn(mcategory);
+    when(categoryService.removeFromCategory(any(), any())).thenReturn(mcategory);
     assertNotNull(controller.removeUrlCategory(id1, id2).getBody());
   }
 }

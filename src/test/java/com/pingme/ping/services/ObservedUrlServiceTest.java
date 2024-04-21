@@ -41,63 +41,6 @@ class ObservedUrlServiceTest {
   }
 
   @Test
-  void putToCategoryTest() {
-    final Category mcategory = new Category("TestCat");
-    Long catId = 1L;
-    final ObservedUrl mobservedUrl = new ObservedUrl("TestUrl");
-    Long obsId = 1L;
-
-    assertNull(service.putToCategory(null, catId));
-    assertNull(service.putToCategory(obsId, null));
-
-    when(observedUrlRepo.findById(obsId)).thenReturn(Optional.ofNullable(null));
-    when(categoryRepo.findById(catId)).thenReturn(Optional.ofNullable(mcategory));
-    assertNull(service.putToCategory(obsId, catId));
-
-    when(observedUrlRepo.findById(obsId)).thenReturn(Optional.ofNullable(mobservedUrl));
-    when(categoryRepo.findById(catId)).thenReturn(Optional.ofNullable(null));
-    assertNull(service.putToCategory(obsId, catId));
-
-    when(observedUrlRepo.findById(obsId)).thenReturn(Optional.ofNullable(mobservedUrl));
-    when(categoryRepo.findById(catId)).thenReturn(Optional.ofNullable(mcategory));
-    when(categoryRepo.save(any(Category.class))).thenReturn(mcategory);
-
-    assertEquals(service.putToCategory(obsId, catId), mcategory);
-
-    verify(categoryRepo).save(any());
-  }
-
-  @Test
-  void removeFromCategoryTest() {
-    final Category mcategory = new Category("TestCat1");
-    Long catId = 1L;
-    ObservedUrl mobservedUrl = new ObservedUrl("TestUrl");
-    Long obsId = 1L;
-
-    assertNull(service.removeFromCategory(null, catId));
-    assertNull(service.removeFromCategory(obsId, null));
-
-    when(observedUrlRepo.findById(obsId)).thenReturn(Optional.ofNullable(mobservedUrl));
-    when(categoryRepo.findById(catId)).thenReturn(Optional.ofNullable(null));
-    assertNull(service.removeFromCategory(obsId, catId));
-
-    when(observedUrlRepo.findById(obsId)).thenReturn(Optional.ofNullable(null));
-    when(categoryRepo.findById(catId)).thenReturn(Optional.ofNullable(mcategory));
-    assertNull(service.removeFromCategory(obsId, catId));
-
-    when(observedUrlRepo.findById(obsId)).thenReturn(Optional.ofNullable(mobservedUrl));
-    when(categoryRepo.findById(catId)).thenReturn(Optional.ofNullable(mcategory));
-    assertNull(service.removeFromCategory(obsId, catId));
-
-    mcategory.getUrls().add(mobservedUrl);
-    Category mcategoryNoUrl = new Category("TestCat");
-    when(observedUrlRepo.findById(obsId)).thenReturn(Optional.ofNullable(mobservedUrl));
-    when(categoryRepo.findById(catId)).thenReturn(Optional.ofNullable(mcategory));
-    when(categoryRepo.save(mcategory)).thenReturn(mcategoryNoUrl);
-    assertEquals(service.removeFromCategory(obsId, catId), mcategoryNoUrl);
-  }
-
-  @Test
   void getAllObservableUrlsTest() {
     List<ObservedUrl> mobservedUrls =
         Arrays.asList(new ObservedUrl("Test1"), new ObservedUrl("Test22"));

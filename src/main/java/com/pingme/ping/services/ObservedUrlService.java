@@ -1,6 +1,5 @@
 package com.pingme.ping.services;
 
-import com.pingme.ping.daos.CategoryRepository;
 import com.pingme.ping.daos.UrlRepository;
 import com.pingme.ping.daos.model.Category;
 import com.pingme.ping.daos.model.ObservedUrl;
@@ -20,65 +19,9 @@ import org.springframework.stereotype.Service;
 public class ObservedUrlService {
 
   private UrlRepository observedUrlRepo;
-  private CategoryRepository categoryRepo;
 
-  public ObservedUrlService(UrlRepository observedUrlRepo, CategoryRepository categoryRepo) {
+  public ObservedUrlService(UrlRepository observedUrlRepo) {
     this.observedUrlRepo = observedUrlRepo;
-    this.categoryRepo = categoryRepo;
-  }
-
-  /**
-   * This Java function adds a URL to a category by retrieving the category and URL objects from
-   * repositories and updating the category's list of URLs.
-   *
-   * @param urlId The `urlId` parameter is the unique identifier of the URL that you want to
-   *     associate with a category.
-   * @param categoryId The `categoryId` parameter represents the unique identifier of the category
-   *     to which you want to add the URL.
-   * @return The method `putToCategory` is returning an instance of the `Category` class.
-   */
-  @Transactional
-  public Category putToCategory(Long urlId, Long categoryId) {
-    var bag = categoryRepo.findById(categoryId);
-    var url = observedUrlRepo.findById(urlId);
-    if (bag.isEmpty() || url.isEmpty()) {
-      return null;
-    }
-
-    var category = bag.get();
-    category.getUrls().add(url.get());
-
-    return categoryRepo.save(category);
-  }
-
-  /**
-   * The function removes a URL from a category and saves the updated category.
-   *
-   * @param urlId The `urlId` parameter is the unique identifier of the URL that you want to remove
-   *     from a specific category.
-   * @param categoryId The `categoryId` parameter represents the unique identifier of the category
-   *     from which you want to remove a URL.
-   * @return The `removeFromCategory` method returns a `Category` object after removing a specific
-   *     URL from the category's list of URLs and saving the updated category in the repository. If
-   *     the category or URL is not found, or if the URL is not present in the category's list, the
-   *     method returns `null`.
-   */
-  @Transactional
-  public Category removeFromCategory(Long urlId, Long categoryId) {
-    var bag = categoryRepo.findById(categoryId);
-    var url = observedUrlRepo.findById(urlId);
-    if (bag.isEmpty() || url.isEmpty()) {
-      return null;
-    }
-
-    var category = bag.get();
-    if (!category.getUrls().contains(url.get())) {
-      return null;
-    }
-
-    category.getUrls().remove(url.get());
-
-    return categoryRepo.save(category);
   }
 
   public List<ObservedUrl> getAllObservableUrls() {
@@ -116,7 +59,6 @@ public class ObservedUrlService {
    *     with the specified ID was successfully deleted, and `false` if the observed URL with the
    *     specified ID was not found in the repository.
    */
-  @Transactional
   public boolean deleteObservedUrl(Long id) {
     var forDelete = observedUrlRepo.findById(id);
 

@@ -1,8 +1,10 @@
 package com.pingme.ping.daos.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,11 +22,11 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
  * observations and categories in a Java application.
  */
 @Entity
-@Table(name = "ObservedUrls")
+@Table(name = "ObservedUrl")
 public class ObservedUrl {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "observedurls_generator")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "observed_url_generator")
   private long id;
 
   @OneToMany(mappedBy = "observedUrl")
@@ -33,7 +35,7 @@ public class ObservedUrl {
 
   @ManyToMany(mappedBy = "urls")
   @JsonIgnore
-  private Set<Category> bags;
+  private Set<Category> bags = new HashSet<>();
 
   public Set<Category> getBags() {
     return bags;
@@ -55,14 +57,12 @@ public class ObservedUrl {
   public ObservedUrl(String url) {
     this.url = url;
     this.observationStartDate = new Date();
-    this.bags = new HashSet<>();
   }
 
   /** The Constructor. */
   public ObservedUrl(String url, Date observationStartDate) {
     this.url = url;
     this.observationStartDate = observationStartDate;
-    this.bags = new HashSet<>();
   }
 
   public long getId() {
@@ -97,6 +97,6 @@ public class ObservedUrl {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, observations, bags, url, observationStartDate);
+    return Objects.hash(id, url, observationStartDate);
   }
 }

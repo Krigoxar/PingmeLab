@@ -3,7 +3,6 @@ package com.pingme.ping.controllers;
 import com.pingme.ping.daos.model.Category;
 import com.pingme.ping.dtos.CategoryName;
 import com.pingme.ping.services.CategoryService;
-import com.pingme.ping.services.ObservedUrlService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -23,17 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
  * The CategoryController class in Java defines RESTful endpoints for managing categories and URLs
  * within a web application.
  */
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/api")
 public class CategoryController {
 
   private CategoryService categoryService;
-  private ObservedUrlService observedService;
 
-  CategoryController(CategoryService categoryService, ObservedUrlService observedService) {
+  CategoryController(CategoryService categoryService) {
     this.categoryService = categoryService;
-    this.observedService = observedService;
   }
 
   /**
@@ -71,9 +68,18 @@ public class CategoryController {
     return new ResponseEntity<>(categorys, HttpStatus.OK);
   }
 
+  /** This Java function. */
   @PostMapping("/categorys")
-  public Category createNewCategory(@RequestBody(required = true) CategoryName name) {
-    return categoryService.addCategory(name);
+  public ResponseEntity<Category> createNewCategory(
+      @RequestBody(required = true) CategoryName name) {
+    if (name.name() == null) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    var res = categoryService.addCategory(name);
+    if (res == null) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+    return new ResponseEntity<>(res, HttpStatus.OK);
   }
 
   /**
@@ -137,7 +143,7 @@ public class CategoryController {
   @PostMapping("/categorys/{id}/url")
   public ResponseEntity<Category> addUrlCategory(@PathVariable Long id, @RequestParam Long urlId) {
 
-    var res = observedService.putToCategory(urlId, id);
+    var res = categoryService.putToCategory(urlId, id);
     if (res == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -162,7 +168,7 @@ public class CategoryController {
   public ResponseEntity<Category> removeUrlCategory(
       @PathVariable Long id, @RequestParam Long urlId) {
 
-    var res = observedService.removeFromCategory(urlId, id);
+    var res = categoryService.removeFromCategory(urlId, id);
     if (res == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
