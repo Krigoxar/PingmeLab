@@ -26,7 +26,7 @@ public class ExceptionsHandler {
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
   @ExceptionHandler(RuntimeException.class)
   public ErrorResponse handleInternalServerError(RuntimeException ex) {
-    var str = String.format("ERROR, 500 CODE %s", ex.getLocalizedMessage());
+    String str = String.format("ERROR, 500 CODE %s", ex.getLocalizedMessage());
     log.error(str);
     return new ErrorResponse("500 ERROR, INTERNAL SERVER ERROR");
   }

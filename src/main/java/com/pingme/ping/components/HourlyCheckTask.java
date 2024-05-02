@@ -4,6 +4,7 @@ import com.pingme.ping.daos.UrlRepository;
 import com.pingme.ping.daos.model.ObservedUrl;
 import com.pingme.ping.dtos.NewUrl;
 import com.pingme.ping.services.ObservationService;
+import java.util.List;
 import java.util.TimerTask;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ public class HourlyCheckTask extends TimerTask {
 
   @Override
   public void run() {
-    var urls = observedUrlRepository.findAll();
+    List<ObservedUrl> urls = observedUrlRepository.findAll();
     for (ObservedUrl observedUrl : urls) {
       observationService.addObservationByUrl(new NewUrl(observedUrl.getUrl()));
     }

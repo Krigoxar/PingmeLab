@@ -62,7 +62,7 @@ class UrlControllerTest {
 
   @Test
   void createNewObservableUrlTest() {
-    var mock = new NewUrl("Test");
+    NewUrl mock = new NewUrl("Test");
     when(controller.createNewObservableUrl(mock)).thenReturn(new ObservedUrl(mock.url()));
     assertNotNull(controller.createNewObservableUrl(mock));
   }

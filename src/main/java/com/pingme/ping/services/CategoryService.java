@@ -4,9 +4,11 @@ import com.pingme.ping.components.Cache;
 import com.pingme.ping.daos.CategoryRepository;
 import com.pingme.ping.daos.UrlRepository;
 import com.pingme.ping.daos.model.Category;
+import com.pingme.ping.daos.model.ObservedUrl;
 import com.pingme.ping.dtos.CategoryName;
-import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -52,7 +54,7 @@ public class CategoryService {
     if (cache.containsKey(name)) {
       return cache.get(name);
     }
-    var obj = categoryRepository.findByName(name);
+    List<Category> obj = categoryRepository.findByName(name);
 
     if (obj.isEmpty()) {
       return null;
@@ -74,7 +76,7 @@ public class CategoryService {
     if (categoryName.name().isEmpty()) {
       return null;
     }
-    var cat = new Category(categoryName.name());
+    Category cat = new Category(categoryName.name());
     cache.put(categoryName.name(), cat);
     return categoryRepository.save(cat);
   }
@@ -90,7 +92,7 @@ public class CategoryService {
    *     repository.
    */
   public boolean deleteCategory(Long id) {
-    var res = categoryRepository.findById(id);
+    Optional<Category> res = categoryRepository.findById(id);
     if (res.isEmpty()) {
       return false;
     }
@@ -114,14 +116,14 @@ public class CategoryService {
    *     returns `null`.
    */
   public Category updateCategory(Category category, Long id) {
-    var res = categoryRepository.findById(id);
+    Optional<Category> res = categoryRepository.findById(id);
     if (res.isEmpty()) {
       return null;
     }
 
     cache.remove(category.getName());
 
-    var obj = res.get();
+    Category obj = res.get();
     obj.setName(category.getName());
     return categoryRepository.save(obj);
   }
@@ -137,13 +139,13 @@ public class CategoryService {
    * @return The method `putToCategory` is returning an instance of the `Category` class.
    */
   public Category putToCategory(Long urlId, Long categoryId) {
-    var bag = categoryRepository.findById(categoryId);
-    var url = observedUrlRepo.findById(urlId);
+    Optional<Category> bag = categoryRepository.findById(categoryId);
+    Optional<ObservedUrl> url = observedUrlRepo.findById(urlId);
     if (bag.isEmpty() || url.isEmpty()) {
       return null;
     }
 
-    var category = bag.get();
+    Category category = bag.get();
     category.getUrls().add(url.get());
 
     return categoryRepository.save(category);
@@ -162,13 +164,13 @@ public class CategoryService {
    *     method returns `null`.
    */
   public Category removeFromCategory(Long urlId, Long categoryId) {
-    var bag = categoryRepository.findById(categoryId);
-    var url = observedUrlRepo.findById(urlId);
+    Optional<Category> bag = categoryRepository.findById(categoryId);
+    Optional<ObservedUrl> url = observedUrlRepo.findById(urlId);
     if (bag.isEmpty() || url.isEmpty()) {
       return null;
     }
 
-    var category = bag.get();
+    Category category = bag.get();
     if (!category.getUrls().contains(url.get())) {
       return null;
     }

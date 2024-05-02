@@ -3,7 +3,6 @@ package com.pingme.ping.daos.model;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,8 +14,6 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The Category class represents a category entity with a name, id, and a set of ObservedUrl
@@ -80,5 +77,4 @@ public class Category {
   public void setUrls(Set<ObservedUrl> urls) {
     this.urls = urls;
   }
-
 }

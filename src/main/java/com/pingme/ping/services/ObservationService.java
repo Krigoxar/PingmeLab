@@ -8,6 +8,8 @@ import com.pingme.ping.dtos.NewUrl;
 import java.net.InetAddress;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -45,13 +47,13 @@ public class ObservationService {
    *     found in the repository, it returns `null`.
    */
   public Observation addObservationByUrl(NewUrl url) {
-    var obsurl = observedUrlRepository.findByUrl(url.url());
+    List<ObservedUrl> obsurl = observedUrlRepository.findByUrl(url.url());
     if (obsurl.isEmpty()) {
       return null;
     }
 
     boolean isResponding = isResponding(url.url());
-    var res = new Observation();
+    Observation res = new Observation();
     res.setResponding(isResponding);
     res.setObservationDate(new Date());
     res.setObservedUrl(obsurl.get(0));
@@ -60,13 +62,13 @@ public class ObservationService {
 
   /** The function. */
   public Observation addObservationById(Long id) {
-    var obsurl = observedUrlRepository.findById(id);
+    Optional<ObservedUrl> obsurl = observedUrlRepository.findById(id);
     if (obsurl.isEmpty()) {
       return null;
     }
 
     boolean isResponding = isResponding(obsurl.get().getUrl());
-    var res = new Observation();
+    Observation res = new Observation();
     res.setResponding(isResponding);
     res.setObservationDate(new Date());
     res.setObservedUrl(obsurl.get());
@@ -93,7 +95,7 @@ public class ObservationService {
    *     the repository.
    */
   public boolean deleteObservation(Long id) {
-    var obs = observationRepository.findById(id);
+    Optional<Observation> obs = observationRepository.findById(id);
     if (obs.isEmpty()) {
       return false;
     }
@@ -115,12 +117,12 @@ public class ObservationService {
    *     observationRepository.
    */
   public Observation updateObservation(Observation entity, Long id) {
-    var obs = observationRepository.findById(id);
+    Optional<Observation> obs = observationRepository.findById(id);
     if (obs.isEmpty()) {
       return null;
     }
 
-    var temp = obs.get();
+    Observation temp = obs.get();
     temp.setResponding(entity.isResponding());
     temp.setObservationDate(entity.getObservationDate());
     temp.setObservedUrl(entity.getObservedUrl());

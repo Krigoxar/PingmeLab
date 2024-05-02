@@ -5,10 +5,11 @@ import com.pingme.ping.daos.model.Category;
 import com.pingme.ping.daos.model.ObservedUrl;
 import com.pingme.ping.dtos.NewUrl;
 import com.pingme.ping.dtos.ObservationsCount;
-import jakarta.transaction.Transactional;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -34,7 +35,7 @@ public class ObservedUrlService {
 
   /** This Java function. */
   public ObservedUrl getObservableUrlById(Long id) {
-    var res = observedUrlRepo.findById(id);
+    Optional<ObservedUrl> res = observedUrlRepo.findById(id);
     if (res.isEmpty()) {
       return null;
     }
@@ -60,7 +61,7 @@ public class ObservedUrlService {
    *     specified ID was not found in the repository.
    */
   public boolean deleteObservedUrl(Long id) {
-    var forDelete = observedUrlRepo.findById(id);
+    Optional<ObservedUrl> forDelete = observedUrlRepo.findById(id);
 
     if (forDelete.isEmpty()) {
       return false;
@@ -93,12 +94,12 @@ public class ObservedUrlService {
    */
   public ObservedUrl updateObservedUrl(ObservedUrl entity, Long id) {
 
-    var observedUrlDb = observedUrlRepo.findById(id);
+    Optional<ObservedUrl> observedUrlDb = observedUrlRepo.findById(id);
     if (!observedUrlDb.isPresent()) {
       return null;
     }
 
-    var observedUrl = observedUrlDb.get();
+    ObservedUrl observedUrl = observedUrlDb.get();
     observedUrl.setDate(entity.getDate());
     observedUrl.setUrl(entity.getUrl());
     return observedUrl;
@@ -115,7 +116,7 @@ public class ObservedUrlService {
    *     returned.
    */
   public ObservationsCount getObservatioinsCount(String url) {
-    var target = observedUrlRepo.findByUrl(url);
+    List<ObservedUrl> target = observedUrlRepo.findByUrl(url);
     if (target.isEmpty()) {
       return null;
     }
@@ -137,7 +138,7 @@ public class ObservedUrlService {
       return new LinkedList<>();
     }
 
-    var res = new LinkedList<ObservedUrl>();
+    List<ObservedUrl> res = new LinkedList<ObservedUrl>();
 
     urlDto.stream()
         .distinct()

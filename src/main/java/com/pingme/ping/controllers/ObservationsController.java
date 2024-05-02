@@ -1,6 +1,7 @@
 package com.pingme.ping.controllers;
 
 import com.pingme.ping.daos.model.Observation;
+import com.pingme.ping.daos.model.ObservedUrl;
 import com.pingme.ping.dtos.NewUrl;
 import com.pingme.ping.services.ObservationService;
 import com.pingme.ping.services.ObservedUrlService;
@@ -53,17 +54,17 @@ public class ObservationsController {
   public ResponseEntity<List<Observation>> getAllObservations(
       @RequestParam(required = false) String url) {
     if (url == null) {
-      var obs = observationService.getAllObservations();
+      List<Observation> obs = observationService.getAllObservations();
       return new ResponseEntity<>(obs, HttpStatus.OK);
     }
 
-    var urlObjs = observedUrlService.getObservableUrlbyUrl(url);
+    List<ObservedUrl> urlObjs = observedUrlService.getObservableUrlbyUrl(url);
     if (urlObjs.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    var urlObj = urlObjs.get(0);
-    var observations = observationService.getObservationsByUrl(urlObj);
+    ObservedUrl urlObj = urlObjs.get(0);
+    List<Observation> observations = observationService.getObservationsByUrl(urlObj);
     if (observations.isEmpty()) {
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -101,7 +102,7 @@ public class ObservationsController {
   @PutMapping("/observation/{id}")
   public ResponseEntity<Observation> updateObservation(
       @PathVariable Long id, @RequestBody Observation entity) {
-    var res = observationService.updateObservation(entity, id);
+    Observation res = observationService.updateObservation(entity, id);
     if (res == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

@@ -53,7 +53,7 @@ public class StatsController {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    var observedUrlObservedUrl = observedUrlObservedUrls.get(0);
+    ObservedUrl observedUrlObservedUrl = observedUrlObservedUrls.get(0);
     UrlStats stats =
         new UrlStats(
             observedUrlObservedUrl,
@@ -65,17 +65,16 @@ public class StatsController {
   @GetMapping("/stats/id")
   public ResponseEntity<UrlStats> getAllStatsById(@RequestParam(required = true) Long id) {
 
-    var observedUrlObservedUrls = observedUrlObservedUrlService.getObservableUrlById(id);
+    ObservedUrl observedUrlObservedUrls = observedUrlObservedUrlService.getObservableUrlById(id);
 
     if (observedUrlObservedUrls == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    var observedUrlObservedUrl = observedUrlObservedUrls;
     UrlStats stats =
         new UrlStats(
-            observedUrlObservedUrl,
-            observationService.getObservationsByUrl(observedUrlObservedUrl));
+          observedUrlObservedUrls,
+            observationService.getObservationsByUrl(observedUrlObservedUrls));
     return new ResponseEntity<>(stats, HttpStatus.OK);
   }
 }

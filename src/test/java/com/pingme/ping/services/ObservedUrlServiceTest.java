@@ -52,7 +52,7 @@ class ObservedUrlServiceTest {
   void getObservableUrlbyUrlTest() {
     assertTrue(service.getObservableUrlbyUrl(null).isEmpty());
 
-    var observedUrl = Arrays.asList(new ObservedUrl());
+    List<ObservedUrl> observedUrl = Arrays.asList(new ObservedUrl());
     when(observedUrlRepo.findByUrl(anyString())).thenReturn(observedUrl);
     assertEquals(service.getObservableUrlbyUrl("Test"), observedUrl);
   }

@@ -54,7 +54,7 @@ public class CategoryController {
       categorys = categoryService.getAllCategorys();
     } else {
 
-      var obj = categoryService.getCategoryByName(name);
+      Category obj = categoryService.getCategoryByName(name);
 
       if (obj != null) {
         categorys.add(obj);
@@ -75,7 +75,7 @@ public class CategoryController {
     if (name.name() == null) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    var res = categoryService.addCategory(name);
+    Category res = categoryService.addCategory(name);
     if (res == null) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
@@ -119,7 +119,7 @@ public class CategoryController {
   @PutMapping("/categorys/{id}")
   public ResponseEntity<Category> updateCategory(
       @PathVariable(required = true) Long id, @RequestBody(required = true) Category entity) {
-    var res = categoryService.updateCategory(entity, id);
+    Category res = categoryService.updateCategory(entity, id);
     if (res == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -143,7 +143,7 @@ public class CategoryController {
   @PostMapping("/categorys/{id}/url")
   public ResponseEntity<Category> addUrlCategory(@PathVariable Long id, @RequestParam Long urlId) {
 
-    var res = categoryService.putToCategory(urlId, id);
+    Category res = categoryService.putToCategory(urlId, id);
     if (res == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -168,7 +168,7 @@ public class CategoryController {
   public ResponseEntity<Category> removeUrlCategory(
       @PathVariable Long id, @RequestParam Long urlId) {
 
-    var res = categoryService.removeFromCategory(urlId, id);
+    Category res = categoryService.removeFromCategory(urlId, id);
     if (res == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
