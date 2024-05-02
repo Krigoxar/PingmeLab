@@ -138,7 +138,7 @@ public class ObservedUrlService {
       return new LinkedList<>();
     }
 
-    List<ObservedUrl> res = new LinkedList<ObservedUrl>();
+    List<ObservedUrl> res = new LinkedList<>();
 
     urlDto.stream()
         .distinct()

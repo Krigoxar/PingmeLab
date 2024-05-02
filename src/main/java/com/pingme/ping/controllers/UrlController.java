@@ -4,8 +4,6 @@ import com.pingme.ping.daos.model.ObservedUrl;
 import com.pingme.ping.dtos.NewUrl;
 import com.pingme.ping.dtos.ObservationsCount;
 import com.pingme.ping.services.ObservedUrlService;
-
-import java.util.Arrays;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
