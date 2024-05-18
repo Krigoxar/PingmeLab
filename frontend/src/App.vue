@@ -84,9 +84,9 @@ export default {
   mounted() {
     if(Constants.LINK == null)
     {
-      Constants.LINK = 'https://alluring-healing-production.up.railway.app'
+      Constants.LINK = 'http://localhost:8080'
     }
-    
+
     this.getCategorys()
   }
 }
