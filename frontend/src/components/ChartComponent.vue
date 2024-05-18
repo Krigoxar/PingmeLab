@@ -1,6 +1,7 @@
 <script setup>
 import VueApexCharts from "vue-apexcharts";
 import axios from "axios";
+import Constants from ".//Constants.vue";
 </script>
 
 <template>
@@ -104,13 +105,13 @@ export default {
     closeTab() {
       this.allUrls.urls = this.allUrls.urls.filter(obj => { return obj.id != this.url.id })
 
-      axios.delete('http://localhost:8080/api/categorys/' + this.allUrls.id + '/url?urlId=' + this.url.id)
+      axios.delete(Constants.LINK + '/api/categorys/' + this.allUrls.id + '/url?urlId=' + this.url.id)
         .then(response => {
           return response.data
         }).catch(err => console.log(err))
     },
     async getObservations() {
-      await axios.get('http://localhost:8080/api/observation?url=' + this.url.url)
+      await axios.get(Constants.LINK + '/api/observation?url=' + this.url.url)
         .then(response => {
           if (Array.isArray(response.data)) {
             this.transform(response.data);

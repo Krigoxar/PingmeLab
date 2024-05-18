@@ -2,6 +2,7 @@
 import TabButton from './components/TabButton.vue';
 import CategoryCharts from "./components/CategoryCharts.vue";
 import axios from "axios";
+import Constants from "./components/Constants.vue";
 </script>
 
 <template>
@@ -63,14 +64,14 @@ export default {
         return
       }
       let body = {"name":this.text}
-      let res = await axios.post('http://localhost:8080/api/categorys', body)
+      let res = await axios.post(Constants.LINK + '/api/categorys', body)
         .then(response => {
           return response.data
         }).catch(err => console.log(err))
       this.CategorysData.push(res)
     },
     async getCategorys() {
-      let res = await axios.get('http://localhost:8080/api/categorys')
+      let res = await axios.get(Constants.LINK + '/api/categorys')
         .then(response => {
           return response.data
         }).catch(err => console.log(err))

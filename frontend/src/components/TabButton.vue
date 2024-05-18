@@ -18,6 +18,7 @@
 
 <script>
 import axios from "axios";
+import Constants from ".//Constants.vue";
 export default {
   name: 'TabButton',
   props: {
@@ -33,7 +34,7 @@ export default {
   methods: {
     async closeTab() {
       // delete from server
-      let res = await axios.delete('http://localhost:8080/api/categorys/ ' + this.mytab.id)
+      let res = await axios.delete(Constants.LINK + '/api/categorys/ ' + this.mytab.id)
         .then(response => {
           return response
         }).catch(err => console.log(err))

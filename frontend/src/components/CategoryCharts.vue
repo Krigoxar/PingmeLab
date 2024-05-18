@@ -1,5 +1,6 @@
 <script setup>
 import Chart from ".//ChartComponent.vue";
+import Constants from ".//Constants.vue";
 import axios from "axios";
 </script>
 
@@ -61,7 +62,7 @@ export default {
         return
       }
 
-      let isPresent = await axios.get('http://localhost:8080/api/pings?url=' + this.textUrl)
+      let isPresent = await axios.get(Constants.LINK + '/api/pings?url=' + this.textUrl)
         .then(response => {
           return response
         }).catch(err => console.log(err))
@@ -69,7 +70,7 @@ export default {
       let idForAdd;
       if (isPresent.status == 204) {
         let body = { "url": this.textUrl }
-        let data = await axios.post('http://localhost:8080/api/pings', body)
+        let data = await axios.post(Constants.LINK + '/api/pings', body)
           .then(response => {
             return response.data
           }).catch(err => console.log(err))
@@ -79,7 +80,7 @@ export default {
         idForAdd = isPresent.data[0].id;
       }
 
-      let newCat = await axios.post('http://localhost:8080/api/categorys/' + this.mycat.id + '/url?urlId=' + idForAdd)
+      let newCat = await axios.post(Constants.LINK + '/api/categorys/' + this.mycat.id + '/url?urlId=' + idForAdd)
         .then(response => {
           return response.data
         }).catch(err => console.log(err))
