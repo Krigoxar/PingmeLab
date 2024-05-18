@@ -7,7 +7,7 @@ import axios from "axios";
   <div class="flex-nowrap" style="display: flex;">
     <apexchart id="chart" height="150" ref="realtimeChart" type="rangeBar" :options="chartOptions" :series="series"
       class="flex-fill"></apexchart>
-    <b-button size="sm" variant="primary" :style="{ opacity: isHovered ? 0 : 1 }"
+    <b-button size="sm" variant="primary" 
       style="z-index: 10; height: 35px !important; margin-bottom: 21px !important;"
       class="anim m-3 align-self-center float-right h-25" @click="closeTab()">
       <strong>Del</strong>
@@ -98,6 +98,9 @@ export default {
     apexchart: VueApexCharts,
   },
   methods: {
+    toMill(inDate) {
+      return (Math.round(new Date(inDate).getTime() / 1000) * 1000)
+    },
     closeTab() {
       this.allUrls.urls = this.allUrls.urls.filter(obj => { return obj.id != this.url.id })
 
@@ -115,7 +118,21 @@ export default {
         }).catch(err => console.log(err))
     },
     transform(value) {
-
+      let toMill = function (inDate) {
+        return (Math.round(new Date(inDate).getTime() / 1000) * 1000)
+      };
+      let deleteExcess = function () {
+        let i = 1;
+        while (i < (value.length - 1)) {
+          if ((value[i - 1].responding == value[i].responding) == (value[i].responding == value[i + 1].responding)){
+            console.log(i);
+            value.splice(i,1);
+          }
+          else {
+            i++;
+          }
+        }
+      };
       value.push({
         id: 0,
         observationDate: this.url.date,
@@ -123,20 +140,22 @@ export default {
       });
 
       value.sort(function (a, b) {
-        return a.observationDate - b.observationDate;
+        return (toMill(a.observationDate) - toMill(b.observationDate));
       })
+
+      deleteExcess()
 
       let Online = [];
       let Offline = [];
       let min, max;
-      min = value[0].observationDate;
-      max = value[value.length - 1].observationDate;
+      min = toMill(value[0].observationDate);
+      max = toMill(value[value.length - 1].observationDate);
       for (let i = 1; i < value.length; i++) {
         let obj = {
           x: 'Activity',
           y: [
-            new Date(Math.round(value[i - 1].observationDate / 1000) * 1000).getTime(),
-            new Date(Math.round((value[i].observationDate / 1000) * 1000)).getTime(),
+            toMill(value[i - 1].observationDate),
+            toMill(value[i].observationDate),
           ]
         }
 
