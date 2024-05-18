@@ -1,5 +1,5 @@
 <script>
 export default {
-    LINK: "https://alluring-healing-production.up.railway.app",
+    LINK: process.env.RAILWAY_PUBLIC_DOMAIN,
 }
 </script>
