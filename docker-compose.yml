@@ -2,7 +2,7 @@ version: '2'
 
 services:
   app:
-    image: 'docker-spring-boot-postgres:latest' 
+    image: 'nikitosiknikitosik/pingmelab-docker-repository:main' 
     ports:
       - "8080:8080"
     build:
