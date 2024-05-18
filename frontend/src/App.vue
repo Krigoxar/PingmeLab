@@ -82,6 +82,7 @@ export default {
     }
   },
   mounted() {
+    console.log(Constants.LINK);
     this.getCategorys()
   }
 }
