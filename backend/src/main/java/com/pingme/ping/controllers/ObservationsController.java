@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * The ObservationsController class in Java defines REST endpoints for managing observations with
  * CRUD operations.
  */
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = {"http://localhost:8081", "https://alluring-healing-production.up.railway.app"})
 @RestController
 @RequestMapping("/api")
 public class ObservationsController {

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  * The CategoryController class in Java defines RESTful endpoints for managing categories and URLs
  * within a web application.
  */
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = {"http://localhost:8081", "https://alluring-healing-production.up.railway.app"})
 @RestController
 @RequestMapping("/api")
 public class CategoryController {
