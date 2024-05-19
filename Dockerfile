@@ -16,8 +16,6 @@ FROM openjdk:17.0.2-jdk
 
 LABEL org.opencontainers.image.authors="Nikita Gorchakov"
 
-VOLUME /tmp
-
 # Add Spring Boot app.jar to Container
 COPY --from=0 "/PingmeLab/backend/target/backend-0.0.1-SNAPSHOT.jar" app.jar
 
