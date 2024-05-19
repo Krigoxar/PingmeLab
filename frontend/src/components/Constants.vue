@@ -1,5 +1,5 @@
 <script>
 export default {
-    LINK: "https://alluring-healing-production.up.railway.app",
+    LINK: "https://pingmelab-production.up.railway.app",
 }
 </script>
